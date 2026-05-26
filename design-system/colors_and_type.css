@@ -39,6 +39,26 @@
   --danger:        var(--terra);
   --danger-soft:   var(--terra-soft);
 
+  /* -- Chart palette (pastel, 50-60% sat of semantic equivalents) ----- */
+  --color-chart-abandoned:      #C9A370;   /* soft amber */
+  --color-chart-failed:         #C08A82;   /* dusty rose */
+  --color-chart-completed:      #85A88C;   /* sage green */
+  --color-chart-rejected:       #B8ADA2;   /* warm taupe */
+
+  --color-chart-abandoned-soft: #DFC9A8;   /* ~70% lightness */
+  --color-chart-failed-soft:    #DAC0BB;
+  --color-chart-completed-soft: #BACEBC;
+  --color-chart-rejected-soft:  #D6CFC8;
+
+  --color-chart-previous:        #7B95AD;   /* cool slate-blue */
+  --color-chart-current:         #C48B72;   /* warm terracotta */
+
+  /* -- Chart geometry ------------------------------------------------- */
+  --chart-bar-w:     32px;   /* fixed bar width for all SVG charts */
+  --chart-bar-w-min: 16px;   /* floor when proportionally reduced */
+  --chart-bar-gap:   4px;    /* gap between grouped bars (Mar+Apr) */
+  --chart-cat-gap:   24px;   /* gap between category groups */
+
   /* -- Ink (warm grays) ----------------------------------------------- */
   --fg-1:          #1E2B22;   /* deep forest ink — headings + metrics */
   --fg-2:          #4A4E48;   /* body */
@@ -75,11 +95,11 @@
   --content-w:       900px;       /* legacy reading-column width */
   --content-min:     1200px;
 
-  /* Page shell — fixed 1400px column centered, 25/75 split.
+  /* Page shell — 1400px max centered, 280px fixed sidebar + fluid main.
      The shell is THE page. No top header bar; nav lives in the left rail. */
-  --page-w:          1400px;      /* fixed centered column */
-  --col-left-pct:    25%;         /* sidebar / nav rail */
-  --col-right-pct:   75%;         /* main content */
+  --page-w:          1400px;      /* max-width centered column */
+  --col-left:        280px;       /* sidebar — fixed width */
+  --col-right:       1fr;         /* main content — fills remainder */
   --col-gap:         var(--space-8);   /* 32px gutter between columns */
   --page-pad-y:      var(--space-8);   /* 32px top/bottom inside the shell */
 

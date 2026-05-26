@@ -11,13 +11,14 @@
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
 
-    /* ===== Page shell — 1400px fixed, 25/75 split ===== */
+    /* ===== Page shell — 280px fixed sidebar + fluid main ===== */
     .page {
-      width: var(--page-w);
+      max-width: var(--page-w);
+      width: 100%;
       margin: 0 auto;
       padding: var(--page-pad-y) 0;
       display: grid;
-      grid-template-columns: var(--col-left-pct) var(--col-right-pct);
+      grid-template-columns: var(--col-left) var(--col-right);
       column-gap: var(--col-gap);
       min-height: 100vh;
     }

@@ -11,13 +11,14 @@
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
 
-    /* ===== Page shell — Pattern A: 25/75 ===== */
+    /* ===== Page shell — 280px fixed sidebar + fluid main ===== */
     .page {
-      width: var(--page-w);
+      max-width: var(--page-w);
+      width: 100%;
       margin: 0 auto;
       padding: var(--page-pad-y) 0;
       display: grid;
-      grid-template-columns: var(--col-left-pct) var(--col-right-pct);
+      grid-template-columns: var(--col-left) var(--col-right);
       column-gap: var(--col-gap);
       min-height: 100vh;
     }
@@ -508,6 +509,1287 @@
     .tab-content.visible {
       display: block;
     }
+
+    /* ===== Seats section ===== */
+    .seats-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-6);
+      margin-bottom: var(--space-10);
+    }
+    .seats-info {
+      flex: 1;
+      max-width: 60%;
+    }
+    .seats-title {
+      font: 700 18px/1.3 var(--font-sans);
+      color: var(--fg-1);
+      margin-bottom: var(--space-3);
+    }
+    .progress-bar {
+      height: 8px;
+      background: var(--green-soft);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-bottom: var(--space-2);
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: var(--radius-pill);
+      transition: width 300ms cubic-bezier(.2,.6,.2,1);
+    }
+    .seats-caption {
+      font: var(--t-card-sub);
+      color: var(--fg-3);
+    }
+    .seats-link {
+      font: 500 14px var(--font-sans);
+      color: var(--green);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      white-space: nowrap;
+      transition: color 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .seats-link:hover {
+      color: var(--green-deep);
+    }
+
+    /* ===== Role badge ===== */
+    .role-badge {
+      display: inline-block;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+      font: 600 12px var(--font-sans);
+    }
+    .role-badge.admin {
+      background: var(--green-soft);
+      color: var(--success);
+    }
+    .role-badge.user-role {
+      background: var(--paper-sunken);
+      color: var(--fg-3);
+    }
+
+    /* ===== Status with dot ===== */
+    .status-inline {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font: var(--t-default);
+    }
+    .status-inline .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-inline .dot.green { background: var(--success); }
+    .status-inline .dot.amber { background: var(--warn); }
+    .status-inline .dot.red { background: var(--terra); }
+
+    /* ===== Dropdown menu ===== */
+    .kebab-wrap {
+      position: relative;
+    }
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + var(--space-1));
+      min-width: 220px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-pop);
+      padding: var(--space-1) 0;
+      z-index: 100;
+      display: none;
+    }
+    .dropdown-menu.open {
+      display: block;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-4);
+      font: var(--t-default);
+      color: var(--fg-1);
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .dropdown-item:hover, .dropdown-item:focus {
+      background: var(--paper-sunken);
+      outline: none;
+    }
+    .dropdown-item.danger {
+      color: var(--terra);
+    }
+    .dropdown-item.danger:hover, .dropdown-item.danger:focus {
+      background: var(--terra-soft);
+    }
+    .dropdown-item i {
+      font-size: 16px;
+      width: 16px;
+      text-align: center;
+    }
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-1) 0;
+    }
+
+    /* ===== Modal ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 43, 34, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 200ms cubic-bezier(.2,.6,.2,1),
+                  visibility 200ms;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-pop);
+      width: 480px;
+      max-width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font: 700 18px/1 var(--font-sans);
+      color: var(--fg-1);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--fg-3);
+      font-size: 20px;
+      cursor: pointer;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .modal-close:hover {
+      background: var(--paper-sunken);
+      color: var(--fg-1);
+    }
+    .modal-body {
+      padding: var(--space-5) var(--space-6);
+    }
+    .modal-sub {
+      font: var(--t-default);
+      color: var(--fg-3);
+      margin-bottom: var(--space-5);
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--border);
+    }
+    .modal-divider {
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-5) 0;
+    }
+
+    /* ===== Stepper ===== */
+    .stepper {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .stepper-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--surface);
+      border: none;
+      color: var(--fg-1);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .stepper-btn:hover:not(:disabled) {
+      background: var(--paper-sunken);
+    }
+    .stepper-btn:disabled {
+      color: var(--fg-4);
+      cursor: not-allowed;
+    }
+    .stepper-input {
+      width: 56px;
+      height: 44px;
+      border: none;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      text-align: center;
+      font: 600 16px var(--font-sans);
+      color: var(--fg-1);
+      background: var(--surface);
+      outline: none;
+      -moz-appearance: textfield;
+    }
+    .stepper-input::-webkit-inner-spin-button,
+    .stepper-input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* ===== Form fields ===== */
+    .field-group {
+      margin-bottom: var(--space-5);
+    }
+    .field-label {
+      display: block;
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      margin-bottom: var(--space-2);
+    }
+    .field-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font: var(--t-default);
+      color: var(--fg-1);
+      outline: none;
+      transition: border-color 150ms cubic-bezier(.2,.6,.2,1),
+                  box-shadow 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .field-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(61, 89, 67, 0.15);
+    }
+    .field-input.error {
+      border-color: var(--terra);
+      box-shadow: 0 0 0 3px rgba(179, 58, 40, 0.10);
+    }
+    .field-input::placeholder {
+      color: var(--fg-4);
+    }
+    .field-error {
+      font: var(--t-card-sub);
+      color: var(--terra);
+      margin-top: var(--space-1);
+      display: none;
+    }
+    .field-error.visible {
+      display: block;
+    }
+
+    /* ===== Radio cards ===== */
+    .radio-card-group {
+      display: flex;
+      gap: var(--space-3);
+    }
+    .radio-card {
+      flex: 1;
+      padding: var(--space-4);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 150ms cubic-bezier(.2,.6,.2,1),
+                  background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .radio-card.selected {
+      border-color: var(--green);
+      background: var(--green-soft);
+    }
+    .radio-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
+    }
+    .radio-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .radio-card.selected .radio-dot {
+      border-color: var(--green);
+    }
+    .radio-dot-inner {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      transform: scale(0);
+      transition: transform 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .radio-card.selected .radio-dot-inner {
+      transform: scale(1);
+    }
+    .radio-card-title {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+    }
+    .radio-card-desc {
+      font: var(--t-card-sub);
+      color: var(--fg-3);
+      padding-left: 24px;
+    }
+
+    /* ===== Plan info ===== */
+    .plan-line {
+      font: var(--t-default);
+      color: var(--fg-3);
+      margin-bottom: var(--space-5);
+    }
+    .price-display {
+      font: 700 28px/1 var(--font-sans);
+      color: var(--fg-1);
+      letter-spacing: var(--tracking-metric);
+      margin-bottom: var(--space-2);
+    }
+    .price-period {
+      font: var(--t-default);
+      color: var(--fg-3);
+      font-weight: 400;
+    }
+    .helper-text {
+      font: var(--t-card-sub);
+      color: var(--fg-3);
+      margin-top: var(--space-2);
+    }
+    .seats-helper {
+      font: var(--t-card-sub);
+      color: var(--fg-3);
+      margin-top: var(--space-2);
+    }
+    .seats-helper.error-text {
+      color: var(--terra);
+    }
+
+    /* ===== Toast ===== */
+    .toast-container {
+      position: fixed;
+      bottom: var(--space-6);
+      right: var(--space-6);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .toast {
+      background: var(--fg-1);
+      color: var(--fg-on-dark);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius);
+      font: var(--t-default);
+      box-shadow: var(--shadow-pop);
+      animation: toast-in 300ms cubic-bezier(.2,.6,.2,1);
+    }
+    .toast.leaving {
+      animation: toast-out 300ms cubic-bezier(.2,.6,.2,1) forwards;
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toast-out {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(10px); }
+    }
+
+    /* ===== Button variants ===== */
+    .btn-danger {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-pill);
+      background: var(--terra);
+      color: var(--fg-on-dark);
+      border: none;
+      font: 500 13px var(--font-sans);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .btn-danger:hover {
+      background: var(--terra-deep);
+    }
+    .btn-secondary {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      color: var(--fg-1);
+      border: 1px solid var(--border);
+      font: 500 13px var(--font-sans);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .btn-secondary:hover {
+      background: var(--paper-sunken);
+    }
+    .btn-primary:disabled, .btn-danger:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* =========================================================================
+       Reports Tab — CSS
+       ========================================================================= */
+
+    /* --- Report header: period selector + download ---- */
+    .report-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+    }
+
+    /* --- Month selector dropdown ---- */
+    .month-select-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .month-select-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font: 500 14px var(--font-sans);
+      color: var(--fg-1);
+      cursor: pointer;
+      min-width: 180px;
+      justify-content: space-between;
+      transition: background 150ms cubic-bezier(.2,.6,.2,1),
+                  border-color 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .month-select-btn:hover {
+      background: var(--paper-sunken);
+      border-color: var(--border-strong);
+    }
+    .month-select-btn i {
+      font-size: 14px;
+      color: var(--fg-3);
+      transition: transform 200ms cubic-bezier(.2,.6,.2,1);
+    }
+    .month-select-wrap.open .month-select-btn i {
+      transform: rotate(180deg);
+    }
+    .month-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 180px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-pop);
+      z-index: 50;
+      display: none;
+      overflow: hidden;
+    }
+    .month-select-wrap.open .month-dropdown {
+      display: block;
+    }
+    .month-option {
+      padding: var(--space-2) var(--space-4);
+      font: var(--t-tab);
+      color: var(--fg-2);
+      cursor: pointer;
+      transition: background 100ms ease;
+    }
+    .month-option:hover {
+      background: var(--paper-sunken);
+    }
+    .month-option.active {
+      color: var(--fg-1);
+      font-weight: 600;
+      background: var(--green-soft);
+    }
+
+    /* --- KPI grid ---- */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    .kpi-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5) var(--space-5) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .kpi-label {
+      font: var(--t-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--fg-4);
+    }
+    .kpi-value {
+      font: var(--t-metric-sm);
+      color: var(--fg-1);
+      letter-spacing: var(--tracking-metric);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .kpi-delta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font: var(--t-meta);
+      color: var(--fg-3);
+      margin-top: var(--space-1);
+    }
+    .kpi-delta-arrow {
+      font-size: 12px;
+      line-height: 1;
+    }
+    .kpi-delta.good .kpi-delta-arrow,
+    .kpi-delta.good .kpi-delta-value {
+      color: var(--success);
+    }
+    .kpi-delta.bad .kpi-delta-arrow,
+    .kpi-delta.bad .kpi-delta-value {
+      color: var(--terra);
+    }
+    .kpi-delta.neutral .kpi-delta-arrow,
+    .kpi-delta.neutral .kpi-delta-value {
+      color: var(--fg-3);
+    }
+    .kpi-delta-value {
+      font-weight: 600;
+    }
+    .kpi-delta-label {
+      color: var(--fg-4);
+    }
+
+    /* --- Funnel card ---- */
+    .funnel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .funnel-card-title {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      margin-bottom: var(--space-4);
+    }
+
+    /* --- Stacked bar ---- */
+    .funnel-bar {
+      display: flex;
+      gap: 2px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: var(--space-5);
+    }
+    .funnel-segment {
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: opacity 150ms cubic-bezier(.2,.6,.2,1),
+                  transform 150ms cubic-bezier(.2,.6,.2,1),
+                  box-shadow 150ms cubic-bezier(.2,.6,.2,1);
+      position: relative;
+    }
+    .funnel-bar.hovering .funnel-segment {
+      opacity: 0.6;
+    }
+    .funnel-bar.hovering .funnel-segment.hovered {
+      opacity: 1;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-2);
+      z-index: 2;
+    }
+
+    /* Segment colors */
+    .funnel-segment[data-outcome="Abandoned"]  { background: var(--color-chart-abandoned); }
+    .funnel-segment[data-outcome="Failed"]     { background: var(--color-chart-failed); }
+    .funnel-segment[data-outcome="Completed"]  { background: var(--color-chart-completed); }
+    .funnel-segment[data-outcome="Rejected"]   { background: var(--color-chart-rejected); }
+
+    /* --- Funnel legend ---- */
+    .funnel-legend {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+    }
+    .funnel-legend-cell {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .funnel-legend-cell:hover {
+      background: var(--paper-sunken);
+    }
+    .funnel-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .funnel-legend-dot[data-outcome="Abandoned"]  { background: var(--color-chart-abandoned); }
+    .funnel-legend-dot[data-outcome="Failed"]     { background: var(--color-chart-failed); }
+    .funnel-legend-dot[data-outcome="Completed"]  { background: var(--color-chart-completed); }
+    .funnel-legend-dot[data-outcome="Rejected"]   { background: var(--color-chart-rejected); }
+
+    .funnel-legend-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+    .funnel-legend-name {
+      font: var(--t-meta);
+      color: var(--fg-3);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-eyebrow);
+    }
+    .funnel-legend-count {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .funnel-legend-arrow {
+      font-size: 14px;
+      color: var(--fg-4);
+      flex-shrink: 0;
+      transition: transform 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .funnel-legend-cell:hover .funnel-legend-arrow {
+      transform: translateX(2px);
+    }
+
+    /* --- Workflow card ---- */
+    .workflow-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .workflow-card-title {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      margin-bottom: var(--space-4);
+    }
+    .wf-row {
+      display: grid;
+      grid-template-columns: 200px 1fr 60px;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-2) 0;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .wf-row:hover {
+      background: var(--paper-sunken);
+    }
+    .wf-name {
+      font: var(--t-default);
+      color: var(--fg-1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .wf-bar-track {
+      height: 24px;
+      background: var(--paper-sunken);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .wf-bar-fill {
+      height: 100%;
+      background: var(--color-chart-completed);
+      border-radius: var(--radius-sm);
+      transition: width 300ms cubic-bezier(.2,.6,.2,1);
+      min-width: 4px;
+    }
+    .wf-count {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      text-align: right;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .wf-delta {
+      font: 400 11px var(--font-sans);
+      color: var(--fg-4);
+    }
+
+    /* --- Drill overlay ---- */
+    .drill-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 43, 34, 0.4);
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 240ms ease-out,
+                  visibility 240ms;
+    }
+    .drill-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .drill-overlay.closing {
+      opacity: 0;
+      transition: opacity 180ms ease-in,
+                  visibility 180ms;
+    }
+
+    /* --- Drill drawer ---- */
+    .drill-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(520px, 40vw);
+      background: var(--surface);
+      box-shadow: var(--shadow-pop);
+      z-index: 201;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 240ms ease-out;
+    }
+    .drill-drawer.open {
+      transform: translateX(0);
+    }
+    .drill-drawer.closing {
+      transform: translateX(100%);
+      transition: transform 180ms ease-in;
+    }
+
+    /* --- Drill header ---- */
+    .drill-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 1;
+    }
+    .drill-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+      font: var(--t-meta);
+      color: var(--fg-1);
+      background: var(--paper-sunken);
+      white-space: nowrap;
+    }
+    .drill-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .drill-pill-dot[data-outcome="Abandoned"]  { background: var(--color-chart-abandoned); }
+    .drill-pill-dot[data-outcome="Failed"]     { background: var(--color-chart-failed); }
+    .drill-pill-dot[data-outcome="Completed"]  { background: var(--color-chart-completed); }
+    .drill-pill-dot[data-outcome="Rejected"]   { background: var(--color-chart-rejected); }
+    .drill-pill-dot[data-outcome="workflow"]   { background: var(--green); }
+    .drill-pill-dot[data-outcome="l1reason"]   { background: var(--fg-4); }
+
+    .drill-headline {
+      font: 700 18px/1 var(--font-sans);
+      color: var(--fg-1);
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .drill-ctx-line {
+      font: var(--t-card-sub);
+      color: var(--fg-4);
+      margin-top: 2px;
+    }
+    .drill-close {
+      background: none;
+      border: none;
+      color: var(--fg-3);
+      font-size: 20px;
+      cursor: pointer;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+      flex-shrink: 0;
+    }
+    .drill-close:hover {
+      background: var(--paper-sunken);
+      color: var(--fg-1);
+    }
+
+    /* --- Drill body ---- */
+    .drill-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-5) var(--space-6);
+    }
+
+    .drill-section-title {
+      font: var(--t-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--fg-4);
+      margin-bottom: var(--space-3);
+    }
+    .drill-section-title:not(:first-child) {
+      margin-top: var(--space-6);
+    }
+
+    /* --- L1 rows (expandable) ---- */
+    .l1-row {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-2);
+      overflow: hidden;
+    }
+    .l1-header {
+      display: grid;
+      grid-template-columns: 20px 1fr 100px 48px;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .l1-header:hover {
+      background: var(--paper-sunken);
+    }
+    .l1-chevron {
+      font-size: 14px;
+      color: var(--fg-4);
+      transition: transform 150ms cubic-bezier(.2,.6,.2,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .l1-row.expanded .l1-chevron {
+      transform: rotate(90deg);
+    }
+    .l1-name {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .l1-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .mini-bar {
+      height: 32px;  /* --chart-bar-w — matches vertical bar width */
+      flex: 1;
+      background: var(--paper-sunken);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .mini-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-sm);
+      background: var(--color-chart-completed);
+      transition: width 300ms cubic-bezier(.2,.6,.2,1);
+    }
+    .l1-count {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      text-align: right;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* --- L1 body (collapsed by default) ---- */
+    .l1-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .l1-row.expanded .l1-body {
+      max-height: 600px;
+    }
+
+    /* --- L2 rows (inside L1) ---- */
+    .l2-row {
+      display: grid;
+      grid-template-columns: 20px 1fr 100px 48px;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-4) var(--space-2) var(--space-8);
+      border-top: 1px solid var(--border);
+    }
+    .l2-name {
+      font: var(--t-default);
+      color: var(--fg-2);
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .l2-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .l2-count {
+      font: var(--t-default);
+      color: var(--fg-2);
+      text-align: right;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* --- Drill footer ---- */
+    .drill-footer {
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .drill-download {
+      font: 500 13px var(--font-sans);
+      color: var(--green);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: color 150ms cubic-bezier(.2,.6,.2,1);
+    }
+    .drill-download:hover {
+      color: var(--green-deep);
+    }
+    .drill-download i {
+      font-size: 16px;
+    }
+
+    /* --- Workflow outcome mini-funnel in drawer ---- */
+    .drill-wf-funnel {
+      display: flex;
+      gap: 2px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: var(--space-4);
+    }
+    .drill-wf-segment {
+      border-radius: var(--radius-sm);
+      transition: opacity 150ms cubic-bezier(.2,.6,.2,1);
+    }
+
+    /* Outcome list in drawer */
+    .drill-outcome-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .drill-outcome-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+    }
+    .drill-outcome-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .drill-outcome-name {
+      font: var(--t-default);
+      color: var(--fg-2);
+      flex: 1;
+    }
+    .drill-outcome-count {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* --- Workflow rank list in drawer ---- */
+    .drill-rank-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .drill-rank-row {
+      display: grid;
+      grid-template-columns: 24px 1fr 60px;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-top: 1px solid var(--border);
+    }
+    .drill-rank-row:first-child {
+      border-top: none;
+    }
+    .drill-rank-num {
+      font: var(--t-meta);
+      color: var(--fg-4);
+      text-align: center;
+    }
+    .drill-rank-name {
+      font: var(--t-default);
+      color: var(--fg-1);
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .drill-rank-count {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      text-align: right;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* --- Failure action rows in drill ---- */
+    .drill-action-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .drill-action-row {
+      display: grid;
+      grid-template-columns: 24px 1fr 80px 48px;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-top: 1px solid var(--border);
+    }
+    .drill-action-row:first-child {
+      border-top: none;
+    }
+    .drill-action-num {
+      font: var(--t-meta);
+      color: var(--fg-4);
+      text-align: center;
+    }
+    .drill-action-name {
+      font: var(--t-default);
+      color: var(--fg-1);
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .drill-action-bar {
+      display: flex;
+      align-items: center;
+    }
+    .drill-action-count {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      text-align: right;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* --- Two-column summary in drawer ---- */
+    .drill-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+    .drill-summary-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .drill-summary-label {
+      font: var(--t-meta);
+      color: var(--fg-4);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-eyebrow);
+    }
+    .drill-summary-value {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+
+    /* --- Detailed analysis section ---- */
+    .detail-section {
+      margin-top: var(--space-8);
+    }
+    .detail-section-head {
+      margin-bottom: var(--space-6);
+    }
+    .detail-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+    }
+    .detail-card-title {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+      margin-bottom: 2px;
+    }
+    .detail-card-sub {
+      font: var(--t-card-sub);
+      color: var(--fg-3);
+      margin-bottom: var(--space-5);
+    }
+    .detail-card-body {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-6);
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .detail-card-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Mini table for charts */
+    .chart-mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0;
+      font: var(--t-meta);
+    }
+    .chart-mini-table th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--fg-3);
+      padding: var(--space-2) var(--space-3);
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-eyebrow);
+    }
+    .chart-mini-table th:not(:first-child) {
+      text-align: right;
+    }
+    .chart-mini-table td {
+      padding: var(--space-2) var(--space-3);
+      color: var(--fg-2);
+      border-bottom: 1px solid var(--border);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .chart-mini-table td:not(:first-child) {
+      text-align: right;
+      color: var(--fg-1);
+      font-weight: 500;
+    }
+    .chart-mini-table td:first-child {
+      font-weight: 500;
+    }
+
+    /* Donut chart styles */
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-6);
+      padding: var(--space-4) 0;
+    }
+    .donut-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      transition: opacity 300ms ease;
+    }
+    .donut-cell.dimmed {
+      opacity: 0.3;
+    }
+    .donut-month {
+      font: var(--t-meta);
+      color: var(--fg-3);
+    }
+    .donut-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-3) var(--space-5);
+      margin-top: var(--space-3);
+    }
+    .donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font: var(--t-meta);
+      color: var(--fg-2);
+    }
+    .donut-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* Bar chart area */
+    .bar-chart-area {
+      position: relative;
+      padding: var(--space-4) 0;
+    }
+    .bar-chart-svg {
+      width: 100%;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -801,138 +2083,247 @@
 
     <!-- ==================== USERS TAB ==================== -->
     <div id="tab-users" class="tab-content">
+
+      <!-- Seats section -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-users"></i>Team members</h2>
-        <p class="section-desc">People with access to this workspace.</p>
+        <h2 class="section-head"><i class="ph ph-user"></i>Seats</h2>
+        <div class="seats-row">
+          <div class="seats-info">
+            <div class="seats-title" id="seats-title">3 of 5 seats used</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="seats-bar" style="width: 60%"></div>
+            </div>
+            <div class="seats-caption" id="seats-caption">1 admin · 1 user · 1 pending invite</div>
+          </div>
+          <button class="seats-link" onclick="openModal('seats-modal')">+ Request more seats</button>
+        </div>
+      </div>
+
+      <!-- Members section -->
+      <div class="section">
+        <h2 class="section-head"><i class="ph ph-users-three"></i>Members</h2>
         <div class="table-toolbar">
           <div class="search-input">
             <i class="ph ph-magnifying-glass"></i>
-            <input type="text" placeholder="Search users..." />
+            <input type="text" placeholder="Search by name or email" id="member-search" oninput="filterMembers()" />
           </div>
-          <button class="btn-primary"><i class="ph ph-plus"></i>Invite user</button>
+          <button class="btn-primary" id="invite-btn" onclick="openInviteModal()">
+            <i class="ph ph-user-plus"></i>Invite user
+          </button>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
             <thead>
               <tr>
-                <th>User</th>
+                <th>Member</th>
                 <th>Role</th>
-                <th>Last Active</th>
                 <th>Status</th>
+                <th>Last Active</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div style="display:flex;align-items:center;gap:var(--space-3)">
-                    <div class="avatar" style="width:32px;height:32px;font-size:11px;">AT</div>
-                    <div>
-                      <div style="font:var(--t-card-title);color:var(--fg-1)">Alex Tan</div>
-                      <div class="td-sub">alex.tan@acme.co</div>
-                    </div>
-                  </div>
-                </td>
-                <td>Solution Admin</td>
-                <td class="td-mono">2 min ago</td>
-                <td><span class="status-chip active"><span class="dot"></span>Active</span></td>
-                <td><button class="dots-btn"><i class="ph ph-dots-three"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <div style="display:flex;align-items:center;gap:var(--space-3)">
-                    <div class="avatar" style="width:32px;height:32px;font-size:11px;background:var(--salmon)">SC</div>
-                    <div>
-                      <div style="font:var(--t-card-title);color:var(--fg-1)">Sarah Chen</div>
-                      <div class="td-sub">sarah.chen@acme.co</div>
-                    </div>
-                  </div>
-                </td>
-                <td>Sales Engineer</td>
-                <td class="td-mono">1 hour ago</td>
-                <td><span class="status-chip active"><span class="dot"></span>Active</span></td>
-                <td><button class="dots-btn"><i class="ph ph-dots-three"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <div style="display:flex;align-items:center;gap:var(--space-3)">
-                    <div class="avatar" style="width:32px;height:32px;font-size:11px;background:var(--terra-tan)">MK</div>
-                    <div>
-                      <div style="font:var(--t-card-title);color:var(--fg-1)">Michael Kim</div>
-                      <div class="td-sub">m.kim@acme.co</div>
-                    </div>
-                  </div>
-                </td>
-                <td>Department Admin</td>
-                <td class="td-mono">3 days ago</td>
-                <td><span class="status-chip active"><span class="dot"></span>Active</span></td>
-                <td><button class="dots-btn"><i class="ph ph-dots-three"></i></button></td>
-              </tr>
-              <tr>
-                <td>
-                  <div style="display:flex;align-items:center;gap:var(--space-3)">
-                    <div class="avatar" style="width:32px;height:32px;font-size:11px;background:var(--green)">JP</div>
-                    <div>
-                      <div style="font:var(--t-card-title);color:var(--fg-1)">James Park</div>
-                      <div class="td-sub">j.park@acme.co</div>
-                    </div>
-                  </div>
-                </td>
-                <td>Viewer</td>
-                <td class="td-mono">1 week ago</td>
-                <td><span class="status-chip active"><span class="dot"></span>Active</span></td>
-                <td><button class="dots-btn"><i class="ph ph-dots-three"></i></button></td>
-              </tr>
-            </tbody>
+            <tbody id="members-tbody"></tbody>
           </table>
         </div>
       </div>
+
     </div>
 
     <!-- ==================== REPORTS TAB ==================== -->
     <div id="tab-reports" class="tab-content">
-      <div class="section">
-        <h2 class="section-head"><i class="ph ph-chart-line"></i>Reports</h2>
-        <p class="section-desc">Usage analytics and operational summaries for this workspace.</p>
-        <div class="settings-card">
-          <div class="settings-row">
-            <div>
-              <div style="font:var(--t-card-title);color:var(--fg-1)">Weekly usage summary</div>
-              <div class="td-sub">Conversations, resolutions, and escalation trends</div>
-            </div>
-            <div class="settings-value">
-              <span class="td-mono">Generated Mon 08:00</span>
-              <button class="settings-action">Download</button>
+
+      <!-- Report header: period selector + download -->
+      <div class="report-header">
+        <div class="month-select-wrap" id="period-control">
+          <button class="month-select-btn" id="month-select-btn" onclick="RPT.toggleMonthDropdown()">
+            <span id="month-select-label">April 2026</span>
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="month-dropdown" id="month-dropdown"></div>
+        </div>
+        <a class="btn-ghost" href="/public/reports/QNET_GSC_Chat_Agent_2026-04_Analysis_V2.xlsx" download>
+          <i class="ph ph-download-simple"></i>Download report
+        </a>
+      </div>
+
+      <!-- KPI tiles -->
+      <div class="kpi-grid" id="kpi-grid"></div>
+
+      <!-- Funnel card -->
+      <div class="funnel-card">
+        <div class="funnel-card-title">Conversation outcomes</div>
+        <div class="funnel-bar" id="funnel-bar"></div>
+        <div class="funnel-legend" id="funnel-legend"></div>
+      </div>
+
+      <!-- Workflow card -->
+      <div class="workflow-card">
+        <div class="workflow-card-title">Conversations by workflow</div>
+        <div id="workflow-rows"></div>
+      </div>
+
+      <!-- Detailed analysis section -->
+      <div class="detail-section">
+        <div class="detail-section-head">
+          <h2 class="section-head" style="margin:0">Detailed analysis</h2>
+          <p style="font:var(--t-card-sub);color:var(--fg-3);margin:var(--space-1) 0 0">Volumes and reasons in depth.</p>
+        </div>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Summary volumes</div>
+            <div class="detail-card-sub">Outcome counts by month.</div>
+            <div class="detail-card-body">
+              <div id="chart-a-container"></div>
+              <div id="chart-a-table"></div>
             </div>
           </div>
-          <div class="settings-row">
-            <div>
-              <div style="font:var(--t-card-title);color:var(--fg-1)">Monthly compliance audit</div>
-              <div class="td-sub">Data access, blocked countries, and policy enforcement</div>
-            </div>
-            <div class="settings-value">
-              <span class="td-mono">Generated 1st of month</span>
-              <button class="settings-action">Download</button>
+          <div class="detail-card">
+            <div class="detail-card-title">Fail reasons (Level 1)</div>
+            <div class="detail-card-sub">Why sessions didn't complete — abandoned + failed combined.</div>
+            <div class="detail-card-body">
+              <div id="chart-b-container"></div>
+              <div id="chart-b-table"></div>
             </div>
           </div>
-          <div class="settings-row">
-            <div>
-              <div style="font:var(--t-card-title);color:var(--fg-1)">Agent performance log</div>
-              <div class="td-sub">Response time, accuracy, and escalation rate per agent</div>
+          <div class="detail-card">
+            <div class="detail-card-title">Split by resolution</div>
+            <div class="detail-card-sub">Outcome distribution by month.</div>
+            <div class="detail-card-body">
+              <div id="chart-c-container"></div>
+              <div id="chart-c-table"></div>
             </div>
-            <div class="settings-value">
-              <span class="td-mono">Real-time</span>
-              <button class="settings-action">View</button>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">User abandoned reasons (Level 2)</div>
+            <div class="detail-card-sub">Where in the flow users dropped off.</div>
+            <div class="detail-card-body">
+              <div id="chart-d-container"></div>
+              <div id="chart-d-table"></div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
   </main>
 </div>
 
+<!-- Drill drawer (Reports tab) -->
+<div class="drill-overlay" id="drill-overlay" onclick="RPT.closeDrill()"></div>
+<div class="drill-drawer" id="drill-drawer">
+  <div class="drill-header">
+    <span class="drill-pill" id="drill-pill">
+      <span class="drill-pill-dot" id="drill-pill-dot"></span>
+      <span id="drill-pill-label"></span>
+    </span>
+    <span class="drill-headline" id="drill-headline"></span>
+    <button class="drill-close" onclick="RPT.closeDrill()"><i class="ph ph-x"></i></button>
+  </div>
+  <div id="drill-ctx-line" class="drill-ctx-line" style="display:none"></div>
+  <div class="drill-body" id="drill-body"></div>
+  <div class="drill-footer">
+    <a class="drill-download" href="/public/reports/QNET_GSC_Chat_Agent_2026-04_Analysis_V2.xlsx" download>
+      <i class="ph ph-download-simple"></i>Download full report
+    </a>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Add More Seats Modal -->
+<div class="modal-overlay" id="seats-modal" onclick="closeModalOnOverlay(event, 'seats-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add more seats</span>
+      <button class="modal-close" onclick="closeModal('seats-modal')"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub" id="seats-modal-sub">QNET Gatekeeper currently has 5 seats. Add more to invite additional team members.</p>
+      <div class="plan-line" id="seats-plan-line">Current plan: 5 seats · 3 used</div>
+      <div class="field-group">
+        <label class="field-label">Seats to add</label>
+        <div class="stepper">
+          <button class="stepper-btn" id="stepper-minus" onclick="stepSeats(-1)" disabled><i class="ph ph-minus"></i></button>
+          <input type="number" class="stepper-input" id="stepper-value" value="1" min="1" max="50" oninput="onStepperInput()" />
+          <button class="stepper-btn" id="stepper-plus" onclick="stepSeats(1)"><i class="ph ph-plus"></i></button>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="field-label" style="margin-bottom: var(--space-2)">Additional cost</div>
+      <div class="price-display" id="seats-price">$20 <span class="price-period">/ month</span></div>
+      <div class="helper-text">Billed at the start of your next cycle on Jul 1, 2026.</div>
+      <div class="helper-text">Your admin will receive a confirmation email with the request details.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('seats-modal')">Cancel</button>
+      <button class="btn-primary" id="seats-submit" onclick="submitAddSeats()">Add 1 seat</button>
+    </div>
+  </div>
+</div>
+
+<!-- Invite User Modal -->
+<div class="modal-overlay" id="invite-modal" onclick="closeModalOnOverlay(event, 'invite-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Invite user</span>
+      <button class="modal-close" onclick="closeModal('invite-modal')"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub">Send an invitation to join QNET Gatekeeper.</p>
+      <div class="field-group">
+        <label class="field-label">Email</label>
+        <input type="email" class="field-input" id="invite-email" placeholder="colleague@company.com" oninput="validateInviteEmail()" />
+        <div class="field-error" id="invite-email-error"></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Role</label>
+        <div class="radio-card-group">
+          <div class="radio-card selected" data-role="user" onclick="selectInviteRole(this)">
+            <div class="radio-card-header">
+              <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+              <span class="radio-card-title">User</span>
+            </div>
+            <div class="radio-card-desc">Can access the solution</div>
+          </div>
+          <div class="radio-card" data-role="admin" onclick="selectInviteRole(this)">
+            <div class="radio-card-header">
+              <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+              <span class="radio-card-title">Admin</span>
+            </div>
+            <div class="radio-card-desc">Can access and manage members</div>
+          </div>
+        </div>
+      </div>
+      <div class="seats-helper" id="invite-seats-helper">This will use 1 of your 2 remaining seats.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('invite-modal')">Cancel</button>
+      <button class="btn-primary" id="invite-submit" onclick="submitInvite()">Send invite</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Dialog -->
+<div class="modal-overlay" id="confirm-modal" onclick="closeModalOnOverlay(event, 'confirm-modal')">
+  <div class="modal" style="width: 420px">
+    <div class="modal-header">
+      <span class="modal-title" id="confirm-title">Confirm</span>
+      <button class="modal-close" onclick="closeModal('confirm-modal')"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub" id="confirm-message" style="margin-bottom: 0"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
+      <button class="btn-primary" id="confirm-action" onclick="confirmAction()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  // ===== TAB SWITCHING =====
   function switchTab(name, el) {
     document.querySelectorAll('.tab-content').forEach(function(c) {
       c.classList.remove('visible');
@@ -945,6 +2336,1649 @@
     window.scrollTo(0, 0);
   }
 
+  // ===== DATA =====
+  var WORKSPACE = 'QNET Gatekeeper';
+  var TOTAL_SEATS = 5;
+  var CURRENT_USER_EMAIL = 'alex.tan@acme.co';
+  var SEAT_PRICE = 20;
+
+  var members = [
+    { id: 'sc', name: 'Sarah Chen', email: 'sarah.chen@qnet.com', role: 'admin', status: 'active', lastActive: '2h ago', initials: 'SC', color: 'var(--salmon)' },
+    { id: 'mj', name: 'Marcus Johnson', email: 'marcus.j@qnet.com', role: 'user', status: 'active', lastActive: 'Yesterday', initials: 'MJ', color: 'var(--terra-tan)' },
+    { id: 'er', name: 'Elena Rodriguez', email: 'elena.r@qnet.com', role: 'user', status: 'pending', lastActive: 'Never', initials: 'ER', color: 'var(--green-mute)' }
+  ];
+
+  var pendingConfirm = null;
+
+  // ===== SEAT HELPERS =====
+  function getUsedSeats() { return members.length; }
+  function getRemainingSeats() { return TOTAL_SEATS - getUsedSeats(); }
+
+  function getCounts() {
+    var admins = 0, users = 0, pending = 0;
+    members.forEach(function(m) {
+      if (m.status === 'pending') pending++;
+      else if (m.role === 'admin') admins++;
+      else users++;
+    });
+    return { admins: admins, users: users, pending: pending };
+  }
+
+  function pluralize(n, singular, plural) {
+    return n + ' ' + (n === 1 ? singular : (plural || singular + 's'));
+  }
+
+  function updateSeatsDisplay() {
+    var used = getUsedSeats();
+    var pct = Math.round((used / TOTAL_SEATS) * 100);
+    document.getElementById('seats-title').textContent = used + ' of ' + TOTAL_SEATS + ' seats used';
+    document.getElementById('seats-bar').style.width = pct + '%';
+
+    var counts = getCounts();
+    var parts = [];
+    if (counts.admins > 0) parts.push(pluralize(counts.admins, 'admin'));
+    if (counts.users > 0) parts.push(pluralize(counts.users, 'user'));
+    if (counts.pending > 0) parts.push(pluralize(counts.pending, 'pending invite'));
+    document.getElementById('seats-caption').textContent = parts.join(' · ');
+
+    var inviteBtn = document.getElementById('invite-btn');
+    if (getRemainingSeats() <= 0) {
+      inviteBtn.disabled = true;
+      inviteBtn.title = 'All seats are in use. Request more seats to invite users.';
+    } else {
+      inviteBtn.disabled = false;
+      inviteBtn.title = '';
+    }
+  }
+
+  // ===== RENDER MEMBERS =====
+  function renderMembers(filter) {
+    var tbody = document.getElementById('members-tbody');
+    tbody.innerHTML = '';
+    var filtered = members;
+    if (filter) {
+      var q = filter.toLowerCase();
+      filtered = members.filter(function(m) {
+        return m.name.toLowerCase().indexOf(q) >= 0 || m.email.toLowerCase().indexOf(q) >= 0;
+      });
+    }
+
+    filtered.forEach(function(m) {
+      var tr = document.createElement('tr');
+      tr.setAttribute('data-member-id', m.id);
+
+      var td1 = document.createElement('td');
+      td1.innerHTML = '<div style="display:flex;align-items:center;gap:var(--space-3)">' +
+        '<div class="avatar" style="width:32px;height:32px;font-size:11px;background:' + m.color + '">' + m.initials + '</div>' +
+        '<div><div style="font:var(--t-card-title);color:var(--fg-1)">' + m.name + '</div>' +
+        '<div class="td-sub">' + m.email + '</div></div></div>';
+      tr.appendChild(td1);
+
+      var td2 = document.createElement('td');
+      var roleCls = m.role === 'admin' ? 'admin' : 'user-role';
+      var roleLabel = m.role === 'admin' ? 'Admin' : 'User';
+      td2.innerHTML = '<span class="role-badge ' + roleCls + '">' + roleLabel + '</span>';
+      tr.appendChild(td2);
+
+      var td3 = document.createElement('td');
+      var dotCls = m.status === 'active' ? 'green' : (m.status === 'pending' ? 'amber' : 'red');
+      var statusLabel = m.status === 'active' ? 'Active' : (m.status === 'pending' ? 'Pending invite' : 'Suspended');
+      td3.innerHTML = '<div class="status-inline"><span class="dot ' + dotCls + '"></span>' + statusLabel + '</div>';
+      tr.appendChild(td3);
+
+      var td4 = document.createElement('td');
+      td4.style.font = 'var(--t-default)';
+      td4.style.color = 'var(--fg-3)';
+      td4.textContent = m.lastActive;
+      tr.appendChild(td4);
+
+      var td5 = document.createElement('td');
+      td5.innerHTML = '<div class="kebab-wrap">' +
+        '<button class="dots-btn" onclick="toggleKebab(event, this, \'' + m.id + '\')"><i class="ph ph-dots-three"></i></button>' +
+        '<div class="dropdown-menu" id="kebab-' + m.id + '"></div></div>';
+      tr.appendChild(td5);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterMembers() {
+    renderMembers(document.getElementById('member-search').value);
+  }
+
+  // ===== KEBAB MENU =====
+  function toggleKebab(e, btn, memberId) {
+    e.stopPropagation();
+    var wasOpen = document.getElementById('kebab-' + memberId).classList.contains('open');
+    closeAllMenus();
+    if (wasOpen) return;
+
+    var menu = document.getElementById('kebab-' + memberId);
+    var member = members.find(function(m) { return m.id === memberId; });
+    if (!member) return;
+
+    menu.innerHTML = '';
+    var isCurrentUser = member.email === CURRENT_USER_EMAIL;
+
+    if (isCurrentUser) {
+      addMenuItem(menu, 'ph-user-circle', 'Edit profile', function() {
+        closeAllMenus();
+        showToast('Profile editor coming soon.');
+      });
+    } else if (member.status === 'pending') {
+      addMenuItem(menu, 'ph-paper-plane-tilt', 'Resend invite', function() {
+        closeAllMenus();
+        showToast('Invite resent to ' + member.email + '.');
+      });
+      addMenuItem(menu, 'ph-link', 'Copy invite link', function() {
+        closeAllMenus();
+        navigator.clipboard.writeText('https://app.sparsa.ai/invite/' + member.id);
+        showToast('Invite link copied.');
+      });
+      menu.appendChild(createDivider());
+      addMenuItem(menu, 'ph-x-circle', 'Cancel invite', function() {
+        closeAllMenus();
+        showConfirm('Cancel invite',
+          'Cancel invite for ' + member.email + '? They will not be able to use this invite.',
+          'Cancel invite', true, function() {
+            members = members.filter(function(x) { return x.id !== memberId; });
+            updateSeatsDisplay();
+            renderMembers(document.getElementById('member-search').value);
+            showToast('Invite cancelled.');
+          });
+      }, true);
+    } else {
+      if (member.role === 'admin') {
+        addMenuItem(menu, 'ph-user', 'Change role to User', function() {
+          closeAllMenus();
+          var adminCount = members.filter(function(x) { return x.role === 'admin' && x.status === 'active'; }).length;
+          if (adminCount <= 1) { showToast('At least one admin is required.'); return; }
+          showConfirm('Change role',
+            'Change ' + member.name + '\'s role to User? They will lose admin privileges.',
+            'Change role', false, function() {
+              member.role = 'user';
+              updateSeatsDisplay();
+              renderMembers(document.getElementById('member-search').value);
+              showToast(member.name + ' is now a User.');
+            });
+        });
+      } else {
+        addMenuItem(menu, 'ph-shield-check', 'Change role to Admin', function() {
+          closeAllMenus();
+          showConfirm('Make admin',
+            'Make ' + member.name + ' an admin? They will be able to invite and manage members.',
+            'Make admin', false, function() {
+              member.role = 'admin';
+              updateSeatsDisplay();
+              renderMembers(document.getElementById('member-search').value);
+              showToast(member.name + ' is now an Admin.');
+            });
+        });
+      }
+      addMenuItem(menu, 'ph-key', 'Reset password', function() {
+        closeAllMenus();
+        showConfirm('Reset password',
+          'Send a password reset email to ' + member.name + '?',
+          'Send', false, function() { showToast('Password reset email sent.'); });
+      });
+      menu.appendChild(createDivider());
+      addMenuItem(menu, 'ph-user-minus', 'Remove from workspace', function() {
+        closeAllMenus();
+        if (member.role === 'admin') {
+          var ac = members.filter(function(x) { return x.role === 'admin' && x.status === 'active'; }).length;
+          if (ac <= 1) { showToast('At least one admin is required.'); return; }
+        }
+        showConfirm('Remove member',
+          'Remove ' + member.name + ' from ' + WORKSPACE + '? They will lose access immediately. This cannot be undone.',
+          'Remove', true, function() {
+            members = members.filter(function(x) { return x.id !== memberId; });
+            updateSeatsDisplay();
+            renderMembers(document.getElementById('member-search').value);
+            showToast(member.name + ' removed. Seat is now available.');
+          });
+      }, true);
+    }
+
+    menu.classList.add('open');
+    var items = menu.querySelectorAll('.dropdown-item');
+    var focusIdx = -1;
+    menu.onkeydown = function(ev) {
+      if (ev.key === 'Escape') { closeAllMenus(); btn.focus(); }
+      else if (ev.key === 'ArrowDown') { ev.preventDefault(); focusIdx = Math.min(focusIdx + 1, items.length - 1); items[focusIdx].focus(); }
+      else if (ev.key === 'ArrowUp') { ev.preventDefault(); focusIdx = Math.max(focusIdx - 1, 0); items[focusIdx].focus(); }
+      else if (ev.key === 'Enter' && focusIdx >= 0) { items[focusIdx].click(); }
+    };
+    if (items.length) { focusIdx = 0; items[0].focus(); }
+  }
+
+  function addMenuItem(menu, icon, label, handler, isDanger) {
+    var btn = document.createElement('button');
+    btn.className = 'dropdown-item' + (isDanger ? ' danger' : '');
+    btn.innerHTML = '<i class="ph ' + icon + '"></i>' + label;
+    btn.onclick = handler;
+    menu.appendChild(btn);
+  }
+
+  function createDivider() {
+    var d = document.createElement('div');
+    d.className = 'dropdown-divider';
+    return d;
+  }
+
+  function closeAllMenus() {
+    document.querySelectorAll('.dropdown-menu.open').forEach(function(m) { m.classList.remove('open'); });
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.kebab-wrap')) closeAllMenus();
+  });
+
+  // ===== MODALS =====
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOnOverlay(e, id) {
+    if (e.target === e.currentTarget) closeModal(id);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      ['seats-modal', 'invite-modal', 'confirm-modal'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el && el.classList.contains('open')) closeModal(id);
+      });
+      closeAllMenus();
+    }
+  });
+
+  // ===== ADD SEATS MODAL =====
+  function stepSeats(delta) {
+    var input = document.getElementById('stepper-value');
+    var val = parseInt(input.value) || 1;
+    val = Math.max(1, Math.min(50, val + delta));
+    input.value = val;
+    updateSeatsModal();
+  }
+
+  function onStepperInput() {
+    var input = document.getElementById('stepper-value');
+    var val = parseInt(input.value);
+    if (isNaN(val) || val < 1) val = 1;
+    if (val > 50) val = 50;
+    input.value = val;
+    updateSeatsModal();
+  }
+
+  function updateSeatsModal() {
+    var val = parseInt(document.getElementById('stepper-value').value) || 1;
+    document.getElementById('seats-price').innerHTML = '$' + (val * SEAT_PRICE) + ' <span class="price-period">/ month</span>';
+    document.getElementById('seats-submit').textContent = 'Add ' + val + ' seat' + (val === 1 ? '' : 's');
+    document.getElementById('stepper-minus').disabled = (val <= 1);
+    document.getElementById('stepper-plus').disabled = (val >= 50);
+    document.getElementById('seats-modal-sub').textContent = WORKSPACE + ' currently has ' + TOTAL_SEATS + ' seats. Add more to invite additional team members.';
+    document.getElementById('seats-plan-line').textContent = 'Current plan: ' + TOTAL_SEATS + ' seats · ' + getUsedSeats() + ' used';
+  }
+
+  function submitAddSeats() {
+    var val = parseInt(document.getElementById('stepper-value').value) || 1;
+    TOTAL_SEATS += val;
+    closeModal('seats-modal');
+    updateSeatsDisplay();
+    document.getElementById('stepper-value').value = 1;
+    updateSeatsModal();
+    showToast('Request sent. Your admin will receive an email.');
+  }
+
+  // ===== INVITE USER MODAL =====
+  function openInviteModal() {
+    if (getRemainingSeats() <= 0) return;
+    document.getElementById('invite-email').value = '';
+    document.getElementById('invite-email-error').textContent = '';
+    document.getElementById('invite-email-error').classList.remove('visible');
+    document.getElementById('invite-email').classList.remove('error');
+    document.querySelectorAll('#invite-modal .radio-card').forEach(function(c) { c.classList.remove('selected'); });
+    document.querySelector('#invite-modal .radio-card[data-role="user"]').classList.add('selected');
+    updateInviteSeatsHelper();
+    openModal('invite-modal');
+  }
+
+  function updateInviteSeatsHelper() {
+    var remaining = getRemainingSeats();
+    var helper = document.getElementById('invite-seats-helper');
+    var submitBtn = document.getElementById('invite-submit');
+    if (remaining <= 0) {
+      helper.textContent = 'You have no remaining seats. Request more seats first.';
+      helper.className = 'seats-helper error-text';
+      submitBtn.disabled = true;
+    } else {
+      helper.textContent = 'This will use 1 of your ' + remaining + ' remaining seat' + (remaining === 1 ? '' : 's') + '.';
+      helper.className = 'seats-helper';
+      submitBtn.disabled = false;
+    }
+  }
+
+  function selectInviteRole(card) {
+    document.querySelectorAll('#invite-modal .radio-card').forEach(function(c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+  }
+
+  function validateInviteEmail() {
+    var input = document.getElementById('invite-email');
+    var error = document.getElementById('invite-email-error');
+    var val = input.value.trim();
+
+    if (val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      error.textContent = 'Enter a valid email address.';
+      error.classList.add('visible');
+      input.classList.add('error');
+      return false;
+    }
+    if (val && members.some(function(m) { return m.email.toLowerCase() === val.toLowerCase(); })) {
+      error.textContent = 'This email is already a member.';
+      error.classList.add('visible');
+      input.classList.add('error');
+      return false;
+    }
+    error.classList.remove('visible');
+    input.classList.remove('error');
+    return true;
+  }
+
+  function submitInvite() {
+    var email = document.getElementById('invite-email').value.trim();
+    if (!email) {
+      document.getElementById('invite-email-error').textContent = 'Enter a valid email address.';
+      document.getElementById('invite-email-error').classList.add('visible');
+      document.getElementById('invite-email').classList.add('error');
+      return;
+    }
+    if (!validateInviteEmail()) return;
+
+    var role = document.querySelector('#invite-modal .radio-card.selected').getAttribute('data-role');
+    var parts = email.split('@')[0].split('.');
+    var initials = parts.map(function(p) { return p.charAt(0).toUpperCase(); }).join('').substring(0, 2);
+    if (initials.length < 2) initials = email.substring(0, 2).toUpperCase();
+    var name = parts.map(function(p) { return p.charAt(0).toUpperCase() + p.slice(1); }).join(' ');
+    var colors = ['var(--salmon)', 'var(--terra-tan)', 'var(--green-mute)', 'var(--warn)', 'var(--green)'];
+
+    members.push({
+      id: 'inv-' + Date.now(),
+      name: name,
+      email: email,
+      role: role,
+      status: 'pending',
+      lastActive: 'Never',
+      initials: initials,
+      color: colors[members.length % colors.length]
+    });
+
+    closeModal('invite-modal');
+    updateSeatsDisplay();
+    renderMembers(document.getElementById('member-search').value);
+    showToast('Invite sent to ' + email + '.');
+  }
+
+  // ===== CONFIRM DIALOG =====
+  function showConfirm(title, message, actionLabel, isDestructive, callback) {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-message').textContent = message;
+    var actionBtn = document.getElementById('confirm-action');
+    actionBtn.textContent = actionLabel;
+    actionBtn.className = isDestructive ? 'btn-danger' : 'btn-primary';
+    pendingConfirm = callback;
+    openModal('confirm-modal');
+  }
+
+  function confirmAction() {
+    closeModal('confirm-modal');
+    if (pendingConfirm) { pendingConfirm(); pendingConfirm = null; }
+  }
+
+  // ===== TOASTS =====
+  function showToast(message) {
+    var container = document.getElementById('toast-container');
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(function() {
+      toast.classList.add('leaving');
+      setTimeout(function() { toast.remove(); }, 300);
+    }, 3000);
+  }
+
+  // ===== INIT =====
+  updateSeatsDisplay();
+  renderMembers();
+  updateSeatsModal();
+
+  /* =========================================================================
+     Reports Tab — JavaScript
+     ========================================================================= */
+
+  var REPORT_MONTHS = [
+    {
+      key: 'mar', label: 'March 2026', iso: '2026-03',
+      outcomes: { Abandoned: 487, Failed: 155, Completed: 110, Rejected: 25, total: 777 },
+      kpis: { conversations: 777, completionRate: 14.2, abandonRate: 62.7, failRate: 20.0 },
+      workflows: [
+        { name: 'QA PIN Resend', count: 195 },
+        { name: 'VO Password Reset', count: 209 },
+        { name: 'ID Proof Update', count: 149 },
+        { name: 'Email Update', count: 96 },
+        { name: 'Date of Birth Update', count: 63 },
+        { name: 'Address & Contact Update', count: 30 },
+        { name: 'Security Questions Reset', count: 19 },
+        { name: 'Beneficiary Name Update', count: 16 }
+      ],
+      failReasons: [
+        { name: 'User Abandoned', count: 417 },
+        { name: 'ID Fail', count: 136 },
+        { name: 'Process', count: 82 },
+        { name: 'System', count: 7 }
+      ],
+      userAbandonedL2: [
+        { name: 'ID Check', count: 34 }, { name: 'OTP Validation', count: 47 },
+        { name: 'At Process Start', count: 331 }, { name: 'Data Validation Rule', count: 5 },
+        { name: 'Disconnect', count: 0 }, { name: 'Data Entry', count: 0 },
+        { name: 'End of flow', count: 0 }, { name: 'User confirmation', count: 0 }
+      ],
+      idFailL2: [
+        { name: 'Didit', count: 0 }, { name: 'Expiry Date exception', count: 12 },
+        { name: 'ID Not Readable', count: 0 }, { name: 'Images incorrect / order', count: 4 },
+        { name: 'ID# & DOB Incorrect', count: 44 }, { name: 'Name Incorrect', count: 2 },
+        { name: 'ID Expired', count: 5 }, { name: 'Incorrect ID Document', count: 0 },
+        { name: 'User under 18', count: 0 }, { name: 'Name missing', count: 0 }
+      ],
+      processL2: [
+        { name: 'Sanctioned Country', count: 15 }, { name: 'OTP Validation', count: 11 },
+        { name: 'Address Country Mismatch', count: 0 }, { name: 'User Declined Input', count: 0 },
+        { name: 'Data Validation Rule', count: 0 }, { name: 'Invalid IDN', count: 0 }
+      ],
+      systemL2: [{ name: 'Not Available', count: 5 }, { name: 'Ticket Creation', count: 2 }],
+      failureActions: [
+        { name: 'Check If ID Verified', count: 206 }, { name: 'Verify ID Number Match', count: 97 },
+        { name: 'ID Verification Failed', count: 95 }, { name: 'ID Number Mismatch - Check DOB', count: 78 },
+        { name: 'ID Number Mismatch Failure', count: 78 }
+      ],
+      workflowOutcomes: {
+        'QA PIN Resend': { Completed: 36, Failed: 34, Abandoned: 113, Rejected: 8 },
+        'VO Password Reset': { Completed: 17, Failed: 6, Abandoned: 185, Rejected: 1 },
+        'ID Proof Update': { Completed: 20, Failed: 51, Abandoned: 65, Rejected: 9 },
+        'Email Update': { Completed: 8, Failed: 19, Abandoned: 67, Rejected: 2 },
+        'Date of Birth Update': { Completed: 7, Failed: 33, Abandoned: 22, Rejected: 1 },
+        'Address & Contact Update': { Completed: 2, Failed: 6, Abandoned: 18, Rejected: 4 },
+        'Security Questions Reset': { Completed: 4, Failed: 0, Abandoned: 0, Rejected: 0 },
+        'Beneficiary Name Update': { Completed: 2, Failed: 2, Abandoned: 12, Rejected: 0 }
+      },
+      completedByWorkflow: [
+        { name: 'QA PIN Resend', count: 36 }, { name: 'ID Proof Update', count: 20 },
+        { name: 'VO Password Reset', count: 17 }, { name: 'Account Unblock Utility', count: 14 },
+        { name: 'Email Update', count: 8 }, { name: 'Date of Birth Update', count: 7 },
+        { name: 'Security Questions Reset', count: 4 }, { name: 'Address & Contact Update', count: 2 },
+        { name: 'Beneficiary Name Update', count: 2 }
+      ]
+    },
+    {
+      key: 'apr', label: 'April 2026', iso: '2026-04',
+      outcomes: { Abandoned: 648, Failed: 390, Completed: 315, Rejected: 98, total: 1451 },
+      kpis: { conversations: 1451, completionRate: 21.7, abandonRate: 44.7, failRate: 26.9 },
+      workflows: [
+        { name: 'QA PIN Resend', count: 586 }, { name: 'VO Password Reset', count: 223 },
+        { name: 'ID Proof Update', count: 255 }, { name: 'Email Update', count: 197 },
+        { name: 'Date of Birth Update', count: 70 }, { name: 'Address & Contact Update', count: 62 },
+        { name: 'Security Questions Reset', count: 43 }, { name: 'Beneficiary Name Update', count: 15 }
+      ],
+      failReasons: [
+        { name: 'User Abandoned', count: 582 }, { name: 'ID Fail', count: 364 },
+        { name: 'Process', count: 72 }, { name: 'System', count: 20 }
+      ],
+      userAbandonedL2: [
+        { name: 'ID Check', count: 339 }, { name: 'OTP Validation', count: 95 },
+        { name: 'At Process Start', count: 119 }, { name: 'Data Validation Rule', count: 18 },
+        { name: 'Disconnect', count: 8 }, { name: 'Data Entry', count: 1 },
+        { name: 'End of flow', count: 1 }, { name: 'User confirmation', count: 1 }
+      ],
+      idFailL2: [
+        { name: 'Didit', count: 0 }, { name: 'Expiry Date exception', count: 18 },
+        { name: 'ID Not Readable', count: 0 }, { name: 'Images incorrect / order', count: 18 },
+        { name: 'ID# & DOB Incorrect', count: 53 }, { name: 'Name Incorrect', count: 16 },
+        { name: 'ID Expired', count: 4 }, { name: 'Incorrect ID Document', count: 0 },
+        { name: 'User under 18', count: 0 }, { name: 'Name missing', count: 0 }
+      ],
+      processL2: [
+        { name: 'Sanctioned Country', count: 27 }, { name: 'OTP Validation', count: 18 },
+        { name: 'Address Country Mismatch', count: 0 }, { name: 'User Declined Input', count: 0 },
+        { name: 'Data Validation Rule', count: 0 }, { name: 'Invalid IDN', count: 0 }
+      ],
+      systemL2: [{ name: 'Not Available', count: 15 }, { name: 'Ticket Creation', count: 5 }],
+      failureActions: [
+        { name: 'Check If ID Verified', count: 365 }, { name: 'Verify ID Number Match', count: 140 },
+        { name: 'ID Verification Failed', count: 120 }, { name: 'ID Invalid - Contact Support', count: 98 },
+        { name: 'ID Number Mismatch - Check DOB', count: 95 }
+      ],
+      workflowOutcomes: {
+        'QA PIN Resend': { Completed: 109, Failed: 107, Abandoned: 235, Rejected: 31 },
+        'VO Password Reset': { Completed: 38, Failed: 10, Abandoned: 143, Rejected: 6 },
+        'ID Proof Update': { Completed: 57, Failed: 78, Abandoned: 70, Rejected: 10 },
+        'Email Update': { Completed: 32, Failed: 28, Abandoned: 113, Rejected: 16 },
+        'Date of Birth Update': { Completed: 9, Failed: 29, Abandoned: 19, Rejected: 5 },
+        'Address & Contact Update': { Completed: 7, Failed: 9, Abandoned: 39, Rejected: 6 },
+        'Security Questions Reset': { Completed: 7, Failed: 1, Abandoned: 0, Rejected: 0 },
+        'Beneficiary Name Update': { Completed: 3, Failed: 3, Abandoned: 7, Rejected: 2 }
+      },
+      completedByWorkflow: [
+        { name: 'QA PIN Resend', count: 109 }, { name: 'ID Proof Update', count: 57 },
+        { name: 'VO Password Reset', count: 38 }, { name: 'Email Update', count: 32 },
+        { name: 'Account Unblock Utility', count: 20 }, { name: 'Date of Birth Update', count: 9 },
+        { name: 'Security Questions Reset', count: 7 }, { name: 'Address & Contact Update', count: 7 },
+        { name: 'Beneficiary Name Update', count: 3 }
+      ]
+    }
+  ];
+
+  /* --- RPT Namespace --- */
+  var RPT = (function() {
+    'use strict';
+
+    var currentMonthIdx = REPORT_MONTHS.length - 1; // default: latest month
+    var currentPeriod = REPORT_MONTHS[currentMonthIdx].key;
+    var currentDrill = null;
+    var OUTCOME_ORDER = ['Abandoned', 'Failed', 'Completed', 'Rejected'];
+
+    var OUTCOME_COLORS = {
+      Abandoned: 'var(--color-chart-abandoned)',
+      Failed: 'var(--color-chart-failed)',
+      Completed: 'var(--color-chart-completed)',
+      Rejected: 'var(--color-chart-rejected)'
+    };
+    var OUTCOME_COLORS_SOFT = {
+      Abandoned: 'var(--color-chart-abandoned-soft)',
+      Failed: 'var(--color-chart-failed-soft)',
+      Completed: 'var(--color-chart-completed-soft)',
+      Rejected: 'var(--color-chart-rejected-soft)'
+    };
+
+    function fmt(n) {
+      if (n === 0) return '—';
+      return n.toLocaleString('en-US');
+    }
+
+    function fmtPct(n) {
+      return n.toFixed(1) + '%';
+    }
+
+    function fmtDelta(d) {
+      var abs = Math.abs(d.value);
+      var sign = d.value > 0 ? '+' : (d.value < 0 ? '' : '');
+      var unit = d.unit || '%';
+      return sign + abs.toFixed(1) + (unit === 'pts' ? ' pts' : '%');
+    }
+
+    function deltaArrow(d) {
+      if (d.value > 0) return '↑';
+      if (d.value < 0) return '↓';
+      return '→';
+    }
+
+    function slugify(s) {
+      return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function _el(id) { return document.getElementById(id); }
+
+    function getCurrent() { return REPORT_MONTHS[currentMonthIdx]; }
+    function getPrevious() { return currentMonthIdx > 0 ? REPORT_MONTHS[currentMonthIdx - 1] : null; }
+    function getShortLabel(monthObj) { return monthObj.label.split(' ')[0].substring(0, 3); }
+
+    function computeDeltas() {
+      var prev = getPrevious();
+      if (!prev) return null;
+      var cur = getCurrent();
+      var convDelta = prev.kpis.conversations > 0 ? ((cur.kpis.conversations - prev.kpis.conversations) / prev.kpis.conversations * 100) : 0;
+      return {
+        conversations: { value: parseFloat(convDelta.toFixed(1)), direction: 'neutral' },
+        completionRate: { value: parseFloat((cur.kpis.completionRate - prev.kpis.completionRate).toFixed(1)), unit: 'pts', direction: (cur.kpis.completionRate >= prev.kpis.completionRate) ? 'good' : 'bad' },
+        abandonRate: { value: parseFloat((cur.kpis.abandonRate - prev.kpis.abandonRate).toFixed(1)), unit: 'pts', direction: (cur.kpis.abandonRate <= prev.kpis.abandonRate) ? 'good' : 'bad' },
+        failRate: { value: parseFloat((cur.kpis.failRate - prev.kpis.failRate).toFixed(1)), unit: 'pts', direction: (cur.kpis.failRate <= prev.kpis.failRate) ? 'good' : 'bad' }
+      };
+    }
+
+    /* --- Month dropdown --- */
+    function toggleMonthDropdown() {
+      var wrap = _el('period-control');
+      wrap.classList.toggle('open');
+      if (wrap.classList.contains('open')) {
+        renderMonthDropdown();
+        setTimeout(function() {
+          document.addEventListener('click', _closeDropdownOutside);
+        }, 0);
+      } else {
+        document.removeEventListener('click', _closeDropdownOutside);
+      }
+    }
+
+    function _closeDropdownOutside(e) {
+      var wrap = _el('period-control');
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+        document.removeEventListener('click', _closeDropdownOutside);
+      }
+    }
+
+    function renderMonthDropdown() {
+      var dd = _el('month-dropdown');
+      var html = '';
+      for (var i = REPORT_MONTHS.length - 1; i >= 0; i--) {
+        var m = REPORT_MONTHS[i];
+        var isActive = i === currentMonthIdx ? ' active' : '';
+        html += '<div class="month-option' + isActive + '" onclick="RPT.selectMonth(' + i + ')">' + m.label + '</div>';
+      }
+      dd.innerHTML = html;
+    }
+
+    function selectMonth(idx) {
+      currentMonthIdx = idx;
+      currentPeriod = REPORT_MONTHS[idx].key;
+      _el('month-select-label').textContent = REPORT_MONTHS[idx].label;
+      _el('period-control').classList.remove('open');
+      document.removeEventListener('click', _closeDropdownOutside);
+      renderAll();
+      updateURL();
+      if (currentDrill) renderDrillContent();
+    }
+
+    function renderAll() {
+      renderKPIs();
+      renderFunnel();
+      renderWorkflows();
+      renderChartA();
+      renderChartB();
+      renderChartC();
+      renderChartD();
+    }
+
+    /* --- Period switching --- */
+    function setPeriod(monthKey) {
+      for (var i = 0; i < REPORT_MONTHS.length; i++) {
+        if (REPORT_MONTHS[i].key === monthKey) {
+          selectMonth(i);
+          return;
+        }
+      }
+    }
+
+    /* --- URL deep linking --- */
+    function updateURL() {
+      var params = new URLSearchParams(window.location.search);
+      params.set('period', currentPeriod);
+      if (currentDrill) {
+        if (currentDrill.type === 'outcome') {
+          params.set('drill', slugify(currentDrill.key));
+          params.delete('workflow');
+        } else {
+          params.set('workflow', slugify(currentDrill.key));
+          params.delete('drill');
+        }
+      } else {
+        params.delete('drill');
+        params.delete('workflow');
+      }
+      var newURL = window.location.pathname + '?' + params.toString();
+      history.replaceState(null, '', newURL);
+    }
+
+    function readURL() {
+      var params = new URLSearchParams(window.location.search);
+      var period = params.get('period');
+      if (period) {
+        for (var i = 0; i < REPORT_MONTHS.length; i++) {
+          if (REPORT_MONTHS[i].key === period) {
+            currentMonthIdx = i;
+            currentPeriod = period;
+            break;
+          }
+        }
+      }
+      var drill = params.get('drill');
+      var workflow = params.get('workflow');
+      if (drill) {
+        var match = OUTCOME_ORDER.find(function(o) { return slugify(o) === drill; });
+        if (match) {
+          currentDrill = { type: 'outcome', key: match };
+        }
+      } else if (workflow) {
+        var wfs = getCurrent().workflows;
+        var wfMatch = wfs.find(function(w) { return slugify(w.name) === workflow; });
+        if (wfMatch) {
+          currentDrill = { type: 'workflow', key: wfMatch.name };
+        }
+      }
+    }
+
+    /* --- KPI Rendering --- */
+    function renderKPIs() {
+      var grid = _el('kpi-grid');
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var kpis = cur.kpis;
+      var deltas = computeDeltas();
+
+      var tiles = [
+        { label: 'Total conversations', key: 'conversations', value: fmt(kpis.conversations), delta: deltas ? deltas.conversations : null },
+        { label: 'Completion rate', key: 'completionRate', value: fmtPct(kpis.completionRate), delta: deltas ? deltas.completionRate : null },
+        { label: 'Abandon rate', key: 'abandonRate', value: fmtPct(kpis.abandonRate), delta: deltas ? deltas.abandonRate : null },
+        { label: 'Fail rate', key: 'failRate', value: fmtPct(kpis.failRate), delta: deltas ? deltas.failRate : null }
+      ];
+
+      var html = '';
+      for (var i = 0; i < tiles.length; i++) {
+        var t = tiles[i];
+        html += '<div class="kpi-tile">';
+        html += '<div class="kpi-label">' + t.label + '</div>';
+        html += '<div class="kpi-value">' + t.value + '</div>';
+        if (t.delta && prev) {
+          html += '<div class="kpi-delta ' + t.delta.direction + '">';
+          html += '<span class="kpi-delta-arrow">' + deltaArrow(t.delta) + '</span>';
+          html += '<span class="kpi-delta-value">' + fmtDelta(t.delta) + '</span>';
+          html += '<span class="kpi-delta-label">vs ' + getShortLabel(prev) + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+      grid.innerHTML = html;
+    }
+
+    /* --- Funnel Rendering --- */
+    function renderFunnel() {
+      var bar = _el('funnel-bar');
+      var legend = _el('funnel-legend');
+      var outcomes = getCurrent().outcomes;
+      var total = outcomes.total;
+
+      var barHTML = '';
+      for (var i = 0; i < OUTCOME_ORDER.length; i++) {
+        var key = OUTCOME_ORDER[i];
+        var count = outcomes[key];
+        var pct = total > 0 ? (count / total * 100) : 0;
+        barHTML += '<div class="funnel-segment" data-outcome="' + key + '" ';
+        barHTML += 'style="width:' + pct.toFixed(2) + '%" ';
+        barHTML += 'onmouseenter="RPT._funnelHover(this,true)" ';
+        barHTML += 'onmouseleave="RPT._funnelHover(this,false)" ';
+        barHTML += 'onclick="RPT.openDrill(\'outcome\',\'' + key + '\')" ';
+        barHTML += 'title="' + key + ': ' + fmt(count) + ' (' + pct.toFixed(1) + '%)"';
+        barHTML += '></div>';
+      }
+      bar.innerHTML = barHTML;
+
+      var legendHTML = '';
+      for (var j = 0; j < OUTCOME_ORDER.length; j++) {
+        var k = OUTCOME_ORDER[j];
+        var c = outcomes[k];
+        legendHTML += '<div class="funnel-legend-cell" onclick="RPT.openDrill(\'outcome\',\'' + k + '\')">';
+        legendHTML += '<span class="funnel-legend-dot" data-outcome="' + k + '"></span>';
+        legendHTML += '<div class="funnel-legend-text">';
+        legendHTML += '<span class="funnel-legend-name">' + k + '</span>';
+        legendHTML += '<span class="funnel-legend-count">' + fmt(c) + '</span>';
+        legendHTML += '</div>';
+        legendHTML += '<i class="ph ph-caret-right funnel-legend-arrow"></i>';
+        legendHTML += '</div>';
+      }
+      legend.innerHTML = legendHTML;
+    }
+
+    function _funnelHover(segment, isEnter) {
+      var bar = segment.parentElement;
+      if (isEnter) {
+        bar.classList.add('hovering');
+        segment.classList.add('hovered');
+      } else {
+        bar.classList.remove('hovering');
+        segment.classList.remove('hovered');
+      }
+    }
+
+    /* --- Workflow bar chart --- */
+    function renderWorkflows() {
+      var container = _el('workflow-rows');
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var wfs = cur.workflows;
+      var maxCount = 0;
+      for (var i = 0; i < wfs.length; i++) {
+        if (wfs[i].count > maxCount) maxCount = wfs[i].count;
+      }
+
+      var html = '';
+      for (var j = 0; j < wfs.length; j++) {
+        var w = wfs[j];
+        var pct = maxCount > 0 ? (w.count / maxCount * 100) : 0;
+        html += '<div class="wf-row" onclick="RPT.openDrill(\'workflow\',\'' + w.name.replace(/'/g, "\\'") + '\')">';
+        html += '<div class="wf-name">' + w.name + '</div>';
+        html += '<div class="wf-bar-track"><div class="wf-bar-fill" style="width:' + pct.toFixed(1) + '%"></div></div>';
+        html += '<div class="wf-count">' + fmt(w.count);
+        if (prev) {
+          var prevWfs = prev.workflows;
+          var prevCount = 0;
+          for (var k = 0; k < prevWfs.length; k++) {
+            if (prevWfs[k].name === w.name) { prevCount = prevWfs[k].count; break; }
+          }
+          if (prevCount > 0) {
+            var wfDelta = ((w.count - prevCount) / prevCount * 100).toFixed(0);
+            html += ' <span class="wf-delta">(' + (wfDelta > 0 ? '+' : '') + wfDelta + '% vs ' + getShortLabel(prev) + ')</span>';
+          }
+        }
+        html += '</div></div>';
+      }
+      container.innerHTML = html;
+    }
+
+    /* --- Drill Drawer --- */
+    function openDrill(type, key) {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      currentDrill = { type: type, key: key };
+      updateURL();
+
+      var pillDot = _el('drill-pill-dot');
+      var pillLabel = _el('drill-pill-label');
+      var headline = _el('drill-headline');
+
+      if (type === 'outcome') {
+        pillDot.setAttribute('data-outcome', key);
+        pillLabel.textContent = key;
+        headline.textContent = key + ' conversations';
+      } else {
+        pillDot.setAttribute('data-outcome', 'workflow');
+        pillLabel.textContent = 'Workflow';
+        headline.textContent = key;
+      }
+
+      renderDrillContent();
+
+      _el('drill-overlay').classList.remove('closing');
+      _el('drill-overlay').classList.add('open');
+      _el('drill-drawer').classList.remove('closing');
+      _el('drill-drawer').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    var closeTimer = null;
+    function closeDrill() {
+      if (closeTimer) clearTimeout(closeTimer);
+      var overlay = _el('drill-overlay');
+      var drawer = _el('drill-drawer');
+      overlay.classList.add('closing');
+      drawer.classList.add('closing');
+      closeTimer = setTimeout(function() {
+        closeTimer = null;
+        overlay.classList.remove('open', 'closing');
+        drawer.classList.remove('open', 'closing');
+        document.body.style.overflow = '';
+      }, 180);
+      currentDrill = null;
+      updateURL();
+    }
+
+    function renderDrillContent() {
+      if (!currentDrill) return;
+      var body = _el('drill-body');
+
+      if (currentDrill.type === 'outcome') {
+        renderOutcomeDrill(body, currentDrill.key);
+      } else if (currentDrill.type === 'l1reason') {
+        renderL1ReasonDrill(body, currentDrill.key);
+      } else {
+        renderWorkflowDrill(body, currentDrill.key);
+      }
+    }
+
+    /* --- Outcome drill --- */
+    function renderOutcomeDrill(body, outcome) {
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var outcomes = cur.outcomes;
+      var count = outcomes[outcome];
+      var total = outcomes.total;
+      var pctOfTotal = total > 0 ? (count / total * 100).toFixed(1) : '0.0';
+      var html = '';
+
+      html += '<div class="drill-summary-grid">';
+      html += '<div class="drill-summary-cell"><span class="drill-summary-label">Count</span><span class="drill-summary-value">' + fmt(count) + '</span></div>';
+      html += '<div class="drill-summary-cell"><span class="drill-summary-label">% of total</span><span class="drill-summary-value">' + pctOfTotal + '%</span></div>';
+      html += '</div>';
+      if (prev) {
+        var prevCount = prev.outcomes[outcome] || 0;
+        html += '<div class="drill-ctx-line">' + outcome + ' count was ' + fmt(prevCount) + ' in ' + prev.label + '</div>';
+      }
+
+      /* Donut at top */
+      var donutData = [];
+      if (outcome === 'Abandoned' || outcome === 'Failed') {
+        var drillReasons = cur.failReasons;
+        for (var di = 0; di < drillReasons.length; di++) {
+          donutData.push({ label: drillReasons[di].name, value: drillReasons[di].count, color: OUTCOME_COLORS_SOFT[OUTCOME_ORDER[di % 4]] || 'var(--border)' });
+        }
+      } else if (outcome === 'Completed') {
+        var completed = cur.completedByWorkflow;
+        var softColors = [OUTCOME_COLORS_SOFT.Completed, OUTCOME_COLORS_SOFT.Abandoned, OUTCOME_COLORS_SOFT.Failed, OUTCOME_COLORS_SOFT.Rejected];
+        for (var di2 = 0; di2 < completed.length; di2++) {
+          donutData.push({ label: completed[di2].name, value: completed[di2].count, color: softColors[di2 % softColors.length] });
+        }
+      }
+      if (donutData.length > 0) {
+        html += '<div style="display:flex;flex-direction:column;align-items:center;margin-bottom:var(--space-5)">';
+        html += renderDonutSVG(140, donutData, fmt(count), true);
+        html += '<div class="donut-legend" style="margin-top:var(--space-3)">';
+        for (var dli = 0; dli < donutData.length; dli++) {
+          if (donutData[dli].value === 0) continue;
+          html += '<span class="donut-legend-item"><span class="donut-legend-dot" style="background:'+donutData[dli].color+'"></span>'+donutData[dli].label+'</span>';
+        }
+        html += '</div></div>';
+      }
+
+      if (outcome === 'Abandoned' || outcome === 'Failed') {
+        html += renderFailReasonsDrill(outcome);
+      } else if (outcome === 'Completed') {
+        html += renderCompletedDrill();
+      } else if (outcome === 'Rejected') {
+        html += '<div class="drill-section-title">Details</div>';
+        html += '<p style="font:var(--t-default);color:var(--fg-3);margin:0">Rejected conversations are those where the user was denied service due to policy rules (blocked country, sanctioned entity, etc.).</p>';
+      }
+
+      if (outcome === 'Abandoned' || outcome === 'Failed') {
+        html += renderFailureActionsDrill();
+      }
+
+      body.innerHTML = html;
+    }
+
+    function renderFailReasonsDrill() {
+      var reasons = getCurrent().failReasons;
+      var maxCount = 0;
+      for (var i = 0; i < reasons.length; i++) {
+        if (reasons[i].count > maxCount) maxCount = reasons[i].count;
+      }
+
+      var html = '<div class="drill-section-title">Failure reasons (L1)</div>';
+
+      for (var j = 0; j < reasons.length; j++) {
+        var r = reasons[j];
+        var pct = maxCount > 0 ? (r.count / maxCount * 100) : 0;
+        var l2Data = getL2Data(r.name);
+        var hasL2 = l2Data && l2Data.length > 0;
+        var rowId = 'l1-' + slugify(r.name);
+
+        html += '<div class="l1-row" id="' + rowId + '">';
+        html += '<div class="l1-header" onclick="RPT._toggleL1(\'' + rowId + '\')">';
+        if (hasL2) {
+          html += '<span class="l1-chevron"><i class="ph ph-caret-right"></i></span>';
+        } else {
+          html += '<span class="l1-chevron" style="visibility:hidden"><i class="ph ph-caret-right"></i></span>';
+        }
+        html += '<span class="l1-name">' + r.name + '</span>';
+        html += '<span class="l1-bar-wrap"><span class="mini-bar"><span class="mini-bar-fill" style="width:' + pct.toFixed(1) + '%"></span></span></span>';
+        html += '<span class="l1-count">' + fmt(r.count) + '</span>';
+        html += '</div>';
+
+        if (hasL2) {
+          var l2Max = 0;
+          for (var k = 0; k < l2Data.length; k++) {
+            if (l2Data[k].count > l2Max) l2Max = l2Data[k].count;
+          }
+          html += '<div class="l1-body">';
+          for (var m = 0; m < l2Data.length; m++) {
+            var l2 = l2Data[m];
+            var l2Pct = l2Max > 0 ? (l2.count / l2Max * 100) : 0;
+            html += '<div class="l2-row">';
+            html += '<span></span>';
+            html += '<span class="l2-name">' + l2.name + '</span>';
+            html += '<span class="l2-bar-wrap"><span class="mini-bar"><span class="mini-bar-fill" style="width:' + l2Pct.toFixed(1) + '%"></span></span></span>';
+            html += '<span class="l2-count">' + fmt(l2.count) + '</span>';
+            html += '</div>';
+          }
+          html += '</div>';
+        }
+
+        html += '</div>';
+      }
+
+      return html;
+    }
+
+    function getL2Data(l1Name, monthObj) {
+      if (!monthObj) monthObj = getCurrent();
+      var map = {
+        'User Abandoned': monthObj.userAbandonedL2,
+        'ID Fail': monthObj.idFailL2,
+        'Process': monthObj.processL2,
+        'System': monthObj.systemL2
+      };
+      return map[l1Name] || null;
+    }
+
+    function renderCompletedDrill() {
+      var items = getCurrent().completedByWorkflow;
+      var html = '<div class="drill-section-title">Completed by workflow</div>';
+      html += '<div class="drill-rank-list">';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        html += '<div class="drill-rank-row">';
+        html += '<span class="drill-rank-num">' + (i + 1) + '</span>';
+        html += '<span class="drill-rank-name">' + item.name + '</span>';
+        html += '<span class="drill-rank-count">' + fmt(item.count) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderFailureActionsDrill() {
+      var actions = getCurrent().failureActions;
+      var maxCount = actions.length > 0 ? actions[0].count : 1;
+
+      var html = '<div class="drill-section-title">Top failure actions</div>';
+      html += '<div class="drill-action-list">';
+      for (var i = 0; i < actions.length; i++) {
+        var a = actions[i];
+        var pct = maxCount > 0 ? (a.count / maxCount * 100) : 0;
+        html += '<div class="drill-action-row">';
+        html += '<span class="drill-action-num">' + (i + 1) + '</span>';
+        html += '<span class="drill-action-name">' + a.name + '</span>';
+        html += '<span class="drill-action-bar"><span class="mini-bar" style="width:80px"><span class="mini-bar-fill" style="width:' + pct.toFixed(1) + '%;background:var(--color-chart-failed)"></span></span></span>';
+        html += '<span class="drill-action-count">' + fmt(a.count) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    /* --- Workflow drill --- */
+    function renderWorkflowDrill(body, workflowName) {
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var wfOutcomes = cur.workflowOutcomes[workflowName];
+      if (!wfOutcomes) { body.innerHTML = '<p style="font:var(--t-default);color:var(--fg-3)">No data available.</p>'; return; }
+
+      var total = 0;
+      var outcomeKeys = ['Completed', 'Failed', 'Abandoned', 'Rejected'];
+      for (var i = 0; i < outcomeKeys.length; i++) {
+        total += (wfOutcomes[outcomeKeys[i]] || 0);
+      }
+
+      var html = '';
+
+      html += '<div class="drill-summary-grid">';
+      html += '<div class="drill-summary-cell"><span class="drill-summary-label">Total</span><span class="drill-summary-value">' + fmt(total) + '</span></div>';
+      var completionPct = total > 0 ? ((wfOutcomes.Completed || 0) / total * 100).toFixed(1) : '0.0';
+      html += '<div class="drill-summary-cell"><span class="drill-summary-label">Completion rate</span><span class="drill-summary-value">' + completionPct + '%</span></div>';
+      html += '</div>';
+      if (prev && prev.workflowOutcomes[workflowName]) {
+        var prevWfOut = prev.workflowOutcomes[workflowName];
+        var prevTotal = 0;
+        for (var pk in prevWfOut) prevTotal += prevWfOut[pk];
+        html += '<div class="drill-ctx-line">Was ' + fmt(prevTotal) + ' sessions in ' + prev.label + '</div>';
+      }
+
+      /* Donut at top */
+      var wfDonutData = [];
+      for (var di = 0; di < OUTCOME_ORDER.length; di++) {
+        var oKey = OUTCOME_ORDER[di];
+        wfDonutData.push({ label: oKey, value: wfOutcomes[oKey] || 0, color: OUTCOME_COLORS_SOFT[oKey] });
+      }
+      html += '<div style="display:flex;flex-direction:column;align-items:center;margin-bottom:var(--space-5)">';
+      html += renderDonutSVG(140, wfDonutData, fmt(total), true);
+      html += '<div class="donut-legend" style="margin-top:var(--space-3)">';
+      for (var dli = 0; dli < wfDonutData.length; dli++) {
+        html += '<span class="donut-legend-item"><span class="donut-legend-dot" style="background:'+wfDonutData[dli].color+'"></span>'+wfDonutData[dli].label+'</span>';
+      }
+      html += '</div></div>';
+
+      html += '<div class="drill-wf-funnel">';
+      for (var j = 0; j < OUTCOME_ORDER.length; j++) {
+        var key = OUTCOME_ORDER[j];
+        var c = wfOutcomes[key] || 0;
+        var pct = total > 0 ? (c / total * 100) : 0;
+        if (pct > 0) {
+          html += '<div class="drill-wf-segment funnel-segment" data-outcome="' + key + '" style="width:' + pct.toFixed(2) + '%"></div>';
+        }
+      }
+      html += '</div>';
+
+      html += '<div class="drill-section-title">Outcome breakdown</div>';
+      html += '<div class="drill-outcome-list">';
+      for (var k = 0; k < OUTCOME_ORDER.length; k++) {
+        var oKey = OUTCOME_ORDER[k];
+        var oCount = wfOutcomes[oKey] || 0;
+        html += '<div class="drill-outcome-row">';
+        html += '<span class="drill-outcome-dot funnel-legend-dot" data-outcome="' + oKey + '"></span>';
+        html += '<span class="drill-outcome-name">' + oKey + '</span>';
+        html += '<span class="drill-outcome-count">' + fmt(oCount) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      body.innerHTML = html;
+    }
+
+    /* --- L1 expand/collapse (accordion) --- */
+    function _toggleL1(rowId) {
+      var row = document.getElementById(rowId);
+      if (!row) return;
+      var wasExpanded = row.classList.contains('expanded');
+
+      var allL1 = document.querySelectorAll('.l1-row.expanded');
+      for (var i = 0; i < allL1.length; i++) {
+        allL1[i].classList.remove('expanded');
+      }
+
+      if (!wasExpanded) {
+        row.classList.add('expanded');
+      }
+    }
+
+    /* --- Escape key for drill --- */
+    function _handleEscape(e) {
+      if (e.key === 'Escape' && currentDrill) {
+        closeDrill();
+      }
+    }
+
+    /* --- Donut SVG helper --- */
+    function renderDonutSVG(size, data, centerText, useSoft) {
+      var r = size / 2;
+      var cx = r, cy = r;
+      var innerR = r * 0.6;
+      var total = 0;
+      for (var i = 0; i < data.length; i++) total += data[i].value;
+      if (total === 0) {
+        return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+cx+'" cy="'+cy+'" r="'+(r-2)+'" fill="none" stroke="var(--border)" stroke-width="'+(r-innerR)+'"/><text x="'+cx+'" y="'+cy+'" text-anchor="middle" dominant-baseline="central" style="font:600 14px var(--font-sans);fill:var(--fg-3)">—</text></svg>';
+      }
+      var svg = '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">';
+      var startAngle = -Math.PI / 2;
+      for (var j = 0; j < data.length; j++) {
+        if (data[j].value === 0) continue;
+        var slice = (data[j].value / total) * 2 * Math.PI;
+        var endAngle = startAngle + slice;
+        var x1 = cx + r * Math.cos(startAngle);
+        var y1 = cy + r * Math.sin(startAngle);
+        var x2 = cx + r * Math.cos(endAngle);
+        var y2 = cy + r * Math.sin(endAngle);
+        var ix1 = cx + innerR * Math.cos(endAngle);
+        var iy1 = cy + innerR * Math.sin(endAngle);
+        var ix2 = cx + innerR * Math.cos(startAngle);
+        var iy2 = cy + innerR * Math.sin(startAngle);
+        var largeArc = slice > Math.PI ? 1 : 0;
+        var d = 'M '+x1+' '+y1+' A '+r+' '+r+' 0 '+largeArc+' 1 '+x2+' '+y2+' L '+ix1+' '+iy1+' A '+innerR+' '+innerR+' 0 '+largeArc+' 0 '+ix2+' '+iy2+' Z';
+        svg += '<path d="'+d+'" fill="'+data[j].color+'"/>';
+        startAngle = endAngle;
+      }
+      if (centerText) {
+        svg += '<text x="'+cx+'" y="'+cy+'" text-anchor="middle" dominant-baseline="central" style="font:600 16px var(--font-sans);fill:var(--fg-1)">'+centerText+'</text>';
+      }
+      svg += '</svg>';
+      return svg;
+    }
+
+    /* --- Chart A: Summary volumes (stacked vertical bar) --- */
+    function renderChartA() {
+      var container = _el('chart-a-container');
+      var tableEl = _el('chart-a-table');
+      if (!container || !tableEl) return;
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var months = prev ? [prev, cur] : [cur];
+      var totalW = 420;
+      var barWidth = 32;   /* --chart-bar-w */
+      var barGap = 24;     /* --chart-cat-gap (stacked = 1 bar per period) */
+      var chartH = 200;
+      var padLeft = 36;
+      var padTop = 24;
+      var padBottom = 24;
+      var maxVal = 0;
+      for (var pi = 0; pi < months.length; pi++) {
+        var t = months[pi].outcomes.total;
+        if (t > maxVal) maxVal = t;
+      }
+      var yMax = Math.ceil(maxVal / 200) * 200 + 200;
+      var totalH = padTop + chartH + padBottom;
+      var svg = '<svg class="bar-chart-svg" viewBox="0 0 '+totalW+' '+totalH+'">';
+      for (var g = 0; g <= yMax; g += 400) {
+        var gy = padTop + chartH - (g / yMax * chartH);
+        svg += '<line x1="'+padLeft+'" y1="'+gy+'" x2="'+(totalW-10)+'" y2="'+gy+'" stroke="var(--border)" stroke-width="0.5"/>';
+        svg += '<text x="'+(padLeft-4)+'" y="'+gy+'" text-anchor="end" dominant-baseline="central" style="font:400 11px var(--font-sans);fill:var(--fg-4)">'+g+'</text>';
+      }
+      var contentW = months.length * barWidth + (months.length - 1) * barGap;
+      var barStartX = padLeft + (totalW - padLeft - 10 - contentW) / 2;
+      for (var bi = 0; bi < months.length; bi++) {
+        var mo = months[bi];
+        var outcomes = mo.outcomes;
+        var bx = barStartX + bi * (barWidth + barGap);
+        var total = outcomes.total;
+        svg += '<text x="'+(bx + barWidth/2)+'" y="'+(padTop - 6)+'" text-anchor="middle" style="font:600 13px var(--font-sans);fill:var(--fg-1)">'+fmt(total)+'</text>';
+        var stackOrder = ['Rejected', 'Completed', 'Failed', 'Abandoned'];
+        var yPos = padTop + chartH;
+        for (var si = 0; si < stackOrder.length; si++) {
+          var key = stackOrder[si];
+          var val = outcomes[key] || 0;
+          var segH = (val / yMax) * chartH;
+          yPos -= segH;
+          svg += '<rect x="'+bx+'" y="'+yPos+'" width="'+barWidth+'" height="'+segH+'" rx="2" fill="'+OUTCOME_COLORS[key]+'"><title>'+key+': '+fmt(val)+'</title></rect>';
+        }
+        svg += '<text x="'+(bx + barWidth/2)+'" y="'+(padTop + chartH + 14)+'" text-anchor="middle" style="font:400 11px var(--font-sans);fill:var(--fg-3)">'+getShortLabel(mo)+'</text>';
+      }
+      svg += '</svg>';
+      container.innerHTML = svg;
+      var thead = '<tr><th>Outcome</th>';
+      for (var ti = 0; ti < months.length; ti++) {
+        thead += '<th>' + getShortLabel(months[ti]) + '</th>';
+      }
+      thead += '</tr>';
+      var tbody = '';
+      for (var oi = 0; oi < OUTCOME_ORDER.length; oi++) {
+        var oKey = OUTCOME_ORDER[oi];
+        tbody += '<tr><td>'+oKey+'</td>';
+        for (var ci = 0; ci < months.length; ci++) {
+          tbody += '<td>'+fmt(months[ci].outcomes[oKey])+'</td>';
+        }
+        tbody += '</tr>';
+      }
+      tbody += '<tr style="font-weight:600"><td>Total</td>';
+      for (var ci2 = 0; ci2 < months.length; ci2++) {
+        tbody += '<td>'+fmt(months[ci2].outcomes.total)+'</td>';
+      }
+      tbody += '</tr>';
+      tableEl.innerHTML = '<table class="chart-mini-table"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>';
+    }
+
+    /* --- Chart B: Fail reasons L1 (grouped vertical bar, clickable) --- */
+    function renderChartB() {
+      var container = _el('chart-b-container');
+      var tableEl = _el('chart-b-table');
+      if (!container || !tableEl) return;
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var months = prev ? [prev, cur] : [cur];
+      var categories = ['User Abandoned', 'ID Fail', 'Process', 'System'];
+      var barsPerCat = months.length;
+      var totalW = 420;
+      var barW = 32;
+      var barGap = 4;
+      var catGap = 24;
+      var chartH = 180;
+      var padLeft = 36;
+      var padTop = 18;
+      var padBottom = 38;
+      var maxVal = 0;
+      for (var ci = 0; ci < categories.length; ci++) {
+        for (var bi = 0; bi < months.length; bi++) {
+          var reasons = months[bi].failReasons;
+          for (var ri = 0; ri < reasons.length; ri++) {
+            if (reasons[ri].name === categories[ci] && reasons[ri].count > maxVal) {
+              maxVal = reasons[ri].count;
+            }
+          }
+        }
+      }
+      var yMax = Math.ceil(maxVal / 100) * 100 + 100;
+      var catW = barsPerCat * barW + (barsPerCat - 1) * barGap;
+      var totalH = padTop + chartH + padBottom;
+      var svg = '<svg class="bar-chart-svg" viewBox="0 0 '+totalW+' '+totalH+'">';
+      for (var g = 0; g <= yMax; g += 200) {
+        var gy = padTop + chartH - (g / yMax * chartH);
+        svg += '<line x1="'+padLeft+'" y1="'+gy+'" x2="'+(totalW-10)+'" y2="'+gy+'" stroke="var(--border)" stroke-width="0.5"/>';
+        svg += '<text x="'+(padLeft-4)+'" y="'+gy+'" text-anchor="end" dominant-baseline="central" style="font:400 11px var(--font-sans);fill:var(--fg-4)">'+g+'</text>';
+      }
+      var contentW = categories.length * catW + (categories.length - 1) * catGap;
+      var catStartX = padLeft + (totalW - padLeft - 10 - contentW) / 2;
+      for (var ci2 = 0; ci2 < categories.length; ci2++) {
+        var catName = categories[ci2];
+        var catX = catStartX + ci2 * (catW + catGap);
+        for (var bi2 = 0; bi2 < months.length; bi2++) {
+          var mo = months[bi2];
+          var val = 0;
+          for (var ri2 = 0; ri2 < mo.failReasons.length; ri2++) {
+            if (mo.failReasons[ri2].name === catName) { val = mo.failReasons[ri2].count; break; }
+          }
+          var barH = (val / yMax) * chartH;
+          var bx = catX + bi2 * (barW + barGap);
+          var by = padTop + chartH - barH;
+          var color = (bi2 === 0 && months.length > 1) ? 'var(--color-chart-previous)' : 'var(--color-chart-current)';
+          svg += '<rect x="'+bx+'" y="'+by+'" width="'+barW+'" height="'+barH+'" rx="2" fill="'+color+'" style="cursor:pointer" onclick="RPT.openL1Drill(\''+catName+'\')">';
+          svg += '<title>'+catName+' ('+getShortLabel(mo)+'): '+fmt(val)+'</title></rect>';
+        }
+        var labelY = padTop + chartH + 12;
+        svg += '<text x="'+(catX + catW/2)+'" y="'+labelY+'" text-anchor="middle" style="font:400 11px var(--font-sans);fill:var(--fg-3)">'+catName+'</text>';
+      }
+      if (months.length > 1) {
+        svg += '<rect x="'+(totalW - 110)+'" y="2" width="8" height="8" rx="2" fill="var(--color-chart-previous)"/>';
+        svg += '<text x="'+(totalW - 98)+'" y="8" style="font:400 11px var(--font-sans);fill:var(--fg-3)">'+getShortLabel(months[0])+'</text>';
+        svg += '<rect x="'+(totalW - 56)+'" y="2" width="8" height="8" rx="2" fill="var(--color-chart-current)"/>';
+        svg += '<text x="'+(totalW - 44)+'" y="8" style="font:400 11px var(--font-sans);fill:var(--fg-3)">'+getShortLabel(months[1])+'</text>';
+      }
+      svg += '</svg>';
+      container.innerHTML = svg;
+      var thead = '<tr><th>Reason</th>';
+      for (var ti = 0; ti < months.length; ti++) {
+        thead += '<th>' + getShortLabel(months[ti]) + '</th>';
+      }
+      thead += '</tr>';
+      var tbody = '';
+      for (var ci3 = 0; ci3 < categories.length; ci3++) {
+        tbody += '<tr><td>'+categories[ci3]+'</td>';
+        for (var ti2 = 0; ti2 < months.length; ti2++) {
+          var v = 0;
+          for (var ri3 = 0; ri3 < months[ti2].failReasons.length; ri3++) {
+            if (months[ti2].failReasons[ri3].name === categories[ci3]) { v = months[ti2].failReasons[ri3].count; break; }
+          }
+          tbody += '<td>'+fmt(v)+'</td>';
+        }
+        tbody += '</tr>';
+      }
+      tableEl.innerHTML = '<table class="chart-mini-table"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>';
+    }
+
+    /* --- Chart C: Split by resolution (two donuts) --- */
+    function renderChartC() {
+      var container = _el('chart-c-container');
+      var tableEl = _el('chart-c-table');
+      if (!container) return;
+      var cur = getCurrent();
+      var prev = getPrevious();
+      function donutData(outcomes) {
+        return OUTCOME_ORDER.map(function(key) {
+          return { label: key, value: outcomes[key] || 0, color: OUTCOME_COLORS[key] };
+        });
+      }
+      var html = '<div class="donut-wrap">';
+      if (prev) {
+        html += '<div class="donut-cell">';
+        html += renderDonutSVG(130, donutData(prev.outcomes), fmt(prev.outcomes.total), false);
+        html += '<span class="donut-month">' + prev.label + '</span>';
+        html += '</div>';
+      }
+      html += '<div class="donut-cell">';
+      html += renderDonutSVG(130, donutData(cur.outcomes), fmt(cur.outcomes.total), false);
+      html += '<span class="donut-month">' + cur.label + '</span>';
+      html += '</div>';
+      if (!prev) {
+        html += '<div class="donut-cell" style="display:flex;align-items:center;justify-content:center;color:var(--fg-4);font:var(--t-card-sub)">';
+        html += 'No prior month available';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '<div class="donut-legend">';
+      for (var i = 0; i < OUTCOME_ORDER.length; i++) {
+        var key = OUTCOME_ORDER[i];
+        html += '<span class="donut-legend-item"><span class="donut-legend-dot" style="background:'+OUTCOME_COLORS[key]+'"></span>'+key+'</span>';
+      }
+      html += '</div>';
+      container.innerHTML = html;
+      if (tableEl) {
+        var months = prev ? [prev, cur] : [cur];
+        var thead = '<tr><th>Outcome</th>';
+        for (var mi = 0; mi < months.length; mi++) {
+          thead += '<th>' + getShortLabel(months[mi]) + '</th><th>%</th>';
+        }
+        thead += '</tr>';
+        var tbody = '';
+        for (var oi = 0; oi < OUTCOME_ORDER.length; oi++) {
+          var oKey = OUTCOME_ORDER[oi];
+          tbody += '<tr><td>' + oKey + '</td>';
+          for (var mi2 = 0; mi2 < months.length; mi2++) {
+            var mOut = months[mi2].outcomes;
+            var pct = mOut.total > 0 ? (mOut[oKey] / mOut.total * 100).toFixed(1) : '0.0';
+            tbody += '<td>' + fmt(mOut[oKey]) + '</td><td>' + pct + '%</td>';
+          }
+          tbody += '</tr>';
+        }
+        tableEl.innerHTML = '<table class="chart-mini-table"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>';
+      }
+    }
+
+    /* --- Chart D: User abandoned reasons L2 (grouped vertical bar) --- */
+    function renderChartD() {
+      var container = _el('chart-d-container');
+      var tableEl = _el('chart-d-table');
+      if (!container || !tableEl) return;
+      var cur = getCurrent();
+      var prev = getPrevious();
+      var months = prev ? [prev, cur] : [cur];
+      var categories = ['ID Check', 'OTP Validation', 'At Process Start', 'Data Validation Rule', 'Disconnect', 'Data Entry', 'End of flow', 'User confirmation'];
+      var shortLabels = {
+        'ID Check': 'ID Check', 'OTP Validation': 'OTP Valid.', 'At Process Start': 'Process Start',
+        'Data Validation Rule': 'Data Valid.', 'Disconnect': 'Disconnect', 'Data Entry': 'Data Entry',
+        'End of flow': 'End of flow', 'User confirmation': 'User confirm.'
+      };
+      var barsPerCat = months.length;
+      var totalW = 420;
+      var barW = 32;
+      var barGap = 4;
+      var catGap = 24;
+      var chartH = 180;
+      var padLeft = 36;
+      var padTop = 18;
+      var padBottom = 40;
+
+      /* --- Dynamic fit: shrink catGap then barW if too many categories --- */
+      var availW = totalW - padLeft - 10;
+      var catW = barsPerCat * barW + Math.max(0, barsPerCat - 1) * barGap;
+      var contentW = categories.length * catW + (categories.length - 1) * catGap;
+      if (contentW > availW) {
+        catGap = Math.max(8, Math.floor((availW - categories.length * catW) / Math.max(1, categories.length - 1)));
+        contentW = categories.length * catW + (categories.length - 1) * catGap;
+        if (contentW > availW) {
+          var fixedGaps = categories.length * Math.max(0, barsPerCat - 1) * barGap + (categories.length - 1) * catGap;
+          barW = Math.max(16, Math.floor((availW - fixedGaps) / (categories.length * barsPerCat)));
+          catW = barsPerCat * barW + Math.max(0, barsPerCat - 1) * barGap;
+          contentW = categories.length * catW + (categories.length - 1) * catGap;
+        }
+      }
+
+      var maxVal = 0;
+      for (var ci = 0; ci < categories.length; ci++) {
+        for (var bi = 0; bi < months.length; bi++) {
+          var items = months[bi].userAbandonedL2;
+          for (var ri = 0; ri < items.length; ri++) {
+            if (items[ri].name === categories[ci] && items[ri].count > maxVal) {
+              maxVal = items[ri].count;
+            }
+          }
+        }
+      }
+      var yMax = Math.max(Math.ceil(maxVal / 100) * 100 + 50, 100);
+      var totalH = padTop + chartH + padBottom;
+      var svg = '<svg class="bar-chart-svg" viewBox="0 0 '+totalW+' '+totalH+'">';
+      var step = yMax > 200 ? 100 : 50;
+      for (var g = 0; g <= yMax; g += step) {
+        var gy = padTop + chartH - (g / yMax * chartH);
+        svg += '<line x1="'+padLeft+'" y1="'+gy+'" x2="'+(totalW-6)+'" y2="'+gy+'" stroke="var(--border)" stroke-width="0.5"/>';
+        svg += '<text x="'+(padLeft-4)+'" y="'+gy+'" text-anchor="end" dominant-baseline="central" style="font:400 11px var(--font-sans);fill:var(--fg-4)">'+g+'</text>';
+      }
+      contentW = categories.length * catW + (categories.length - 1) * catGap;
+      var catStartX = padLeft + (totalW - padLeft - 10 - contentW) / 2;
+      for (var ci2 = 0; ci2 < categories.length; ci2++) {
+        var catName = categories[ci2];
+        var catX = catStartX + ci2 * (catW + catGap);
+        for (var bi2 = 0; bi2 < months.length; bi2++) {
+          var mo = months[bi2];
+          var val = 0;
+          for (var ri2 = 0; ri2 < mo.userAbandonedL2.length; ri2++) {
+            if (mo.userAbandonedL2[ri2].name === catName) { val = mo.userAbandonedL2[ri2].count; break; }
+          }
+          var barH = yMax > 0 ? (val / yMax) * chartH : 0;
+          var bx = catX + bi2 * (barW + barGap);
+          var by = padTop + chartH - barH;
+          var color = (bi2 === 0 && months.length > 1) ? 'var(--color-chart-previous)' : 'var(--color-chart-current)';
+          if (val > 0) {
+            svg += '<rect x="'+bx+'" y="'+by+'" width="'+barW+'" height="'+barH+'" rx="2" fill="'+color+'"><title>'+catName+' ('+getShortLabel(mo)+'): '+val+'</title></rect>';
+          } else {
+            svg += '<rect x="'+bx+'" y="'+(padTop+chartH-1)+'" width="'+barW+'" height="1" rx="0" fill="transparent"><title>'+catName+' ('+getShortLabel(mo)+'): 0</title></rect>';
+          }
+        }
+        var labelY = padTop + chartH + 12;
+        var label = shortLabels[catName] || catName;
+        svg += '<text x="'+(catX + catW/2)+'" y="'+labelY+'" text-anchor="end" style="font:400 10px var(--font-sans);fill:var(--fg-3)" transform="rotate(-30 '+(catX+catW/2)+' '+labelY+')">'+label+'</text>';
+      }
+      if (months.length > 1) {
+        svg += '<rect x="'+(totalW - 110)+'" y="2" width="8" height="8" rx="2" fill="var(--color-chart-previous)"/>';
+        svg += '<text x="'+(totalW - 98)+'" y="8" style="font:400 11px var(--font-sans);fill:var(--fg-3)">'+getShortLabel(months[0])+'</text>';
+        svg += '<rect x="'+(totalW - 56)+'" y="2" width="8" height="8" rx="2" fill="var(--color-chart-current)"/>';
+        svg += '<text x="'+(totalW - 44)+'" y="8" style="font:400 11px var(--font-sans);fill:var(--fg-3)">'+getShortLabel(months[1])+'</text>';
+      }
+      svg += '</svg>';
+      container.innerHTML = svg;
+      var thead = '<tr><th>Reason</th>';
+      for (var ti = 0; ti < months.length; ti++) {
+        thead += '<th>' + getShortLabel(months[ti]) + '</th>';
+      }
+      thead += '</tr>';
+      var tbody = '';
+      for (var ci3 = 0; ci3 < categories.length; ci3++) {
+        tbody += '<tr><td>'+categories[ci3]+'</td>';
+        for (var ti2 = 0; ti2 < months.length; ti2++) {
+          var v = 0;
+          for (var ri3 = 0; ri3 < months[ti2].userAbandonedL2.length; ri3++) {
+            if (months[ti2].userAbandonedL2[ri3].name === categories[ci3]) { v = months[ti2].userAbandonedL2[ri3].count; break; }
+          }
+          tbody += '<td>'+fmt(v)+'</td>';
+        }
+        tbody += '</tr>';
+      }
+      tableEl.innerHTML = '<table class="chart-mini-table"><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>';
+    }
+
+    /* --- L1 Reason Drill --- */
+    function openL1Drill(l1Name) {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      currentDrill = { type: 'l1reason', key: l1Name };
+      updateURL();
+      var pillDot = _el('drill-pill-dot');
+      var pillLabel = _el('drill-pill-label');
+      var headline = _el('drill-headline');
+      pillDot.setAttribute('data-outcome', 'l1reason');
+      pillDot.style.background = 'var(--color-chart-current)';
+      pillLabel.textContent = l1Name;
+      var reasons = getCurrent().failReasons;
+      var total = 0;
+      for (var i = 0; i < reasons.length; i++) {
+        if (reasons[i].name === l1Name) { total = reasons[i].count; break; }
+      }
+      headline.textContent = l1Name + ' · ' + fmt(total) + ' sessions';
+      var ctxLine = _el('drill-ctx-line');
+      if (ctxLine) {
+        var prev = getPrevious();
+        if (prev) {
+          var prevTotal = 0;
+          for (var j = 0; j < prev.failReasons.length; j++) {
+            if (prev.failReasons[j].name === l1Name) { prevTotal = prev.failReasons[j].count; break; }
+          }
+          ctxLine.textContent = getShortLabel(prev) + ': ' + fmt(prevTotal) + ' sessions';
+          ctxLine.style.display = '';
+        } else {
+          ctxLine.style.display = 'none';
+        }
+      }
+      renderDrillContent();
+      _el('drill-overlay').classList.remove('closing');
+      _el('drill-overlay').classList.add('open');
+      _el('drill-drawer').classList.remove('closing');
+      _el('drill-drawer').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderL1ReasonDrill(body, l1Name) {
+      var cur = getCurrent();
+      var l2Data = getL2Data(l1Name);
+      var reasons = cur.failReasons;
+      var total = 0;
+      for (var i = 0; i < reasons.length; i++) {
+        if (reasons[i].name === l1Name) { total = reasons[i].count; break; }
+      }
+      var html = '';
+      html += '<div class="drill-summary-grid">';
+      html += '<div class="drill-summary-cell"><span class="drill-summary-label">Sessions</span><span class="drill-summary-value">' + fmt(total) + '</span></div>';
+      html += '<div class="drill-summary-cell"><span class="drill-summary-label">Period</span><span class="drill-summary-value">' + cur.label + '</span></div>';
+      html += '</div>';
+      if (l2Data && l2Data.length > 0) {
+        var softColors = [
+          OUTCOME_COLORS_SOFT.Abandoned, OUTCOME_COLORS_SOFT.Failed,
+          OUTCOME_COLORS_SOFT.Completed, OUTCOME_COLORS_SOFT.Rejected
+        ];
+        var donutSlices = [];
+        for (var di = 0; di < l2Data.length; di++) {
+          donutSlices.push({ label: l2Data[di].name, value: l2Data[di].count, color: softColors[di % softColors.length] });
+        }
+        html += '<div style="display:flex;flex-direction:column;align-items:center;margin:var(--space-4) 0 var(--space-5)">';
+        html += renderDonutSVG(140, donutSlices, fmt(total), true);
+        html += '<div class="donut-legend" style="margin-top:var(--space-3)">';
+        for (var dli = 0; dli < donutSlices.length; dli++) {
+          if (donutSlices[dli].value === 0) continue;
+          html += '<span class="donut-legend-item"><span class="donut-legend-dot" style="background:'+donutSlices[dli].color+'"></span>'+donutSlices[dli].label+'</span>';
+        }
+        html += '</div></div>';
+        html += '<div class="drill-section-title">Level 2 breakdown</div>';
+        var l2Max = 0;
+        for (var k = 0; k < l2Data.length; k++) {
+          if (l2Data[k].count > l2Max) l2Max = l2Data[k].count;
+        }
+        for (var m = 0; m < l2Data.length; m++) {
+          var l2 = l2Data[m];
+          var l2Pct = l2Max > 0 ? (l2.count / l2Max * 100) : 0;
+          html += '<div class="l2-row" style="padding-left:var(--space-4)">';
+          html += '<span></span>';
+          html += '<span class="l2-name">' + l2.name + '</span>';
+          html += '<span class="l2-bar-wrap"><span class="mini-bar"><span class="mini-bar-fill" style="width:' + l2Pct.toFixed(1) + '%"></span></span></span>';
+          html += '<span class="l2-count">' + fmt(l2.count) + '</span>';
+          html += '</div>';
+        }
+      } else {
+        html += '<p style="font:var(--t-default);color:var(--fg-3);margin:var(--space-4) 0">No level-2 breakdown available for this reason.</p>';
+      }
+      body.innerHTML = html;
+    }
+
+    /* --- Init --- */
+    function init() {
+      readURL();
+
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('period') || params.get('drill') || params.get('workflow')) {
+        var reportsTab = document.querySelector('.h-tab[data-tab="reports"]');
+        if (reportsTab) reportsTab.click();
+      }
+
+      _el('month-select-label').textContent = REPORT_MONTHS[currentMonthIdx].label;
+
+      renderAll();
+
+      if (currentDrill) {
+        openDrill(currentDrill.type, currentDrill.key);
+      }
+
+      document.addEventListener('keydown', _handleEscape);
+    }
+
+    return {
+      init: init,
+      setPeriod: setPeriod,
+      selectMonth: selectMonth,
+      toggleMonthDropdown: toggleMonthDropdown,
+      openDrill: openDrill,
+      closeDrill: closeDrill,
+      openL1Drill: openL1Drill,
+      _funnelHover: _funnelHover,
+      _toggleL1: _toggleL1
+    };
+  })();
+
+  RPT.init();
 </script>
 
 </body>
