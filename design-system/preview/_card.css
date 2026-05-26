@@ -1,0 +1,57 @@
+/* Shared card wrapper — neutralizes browser defaults and frames each spec
+   so it sits cleanly on the Design System tab background. */
+@import url('../colors_and_type.css');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+.card {
+  width: 700px;
+  box-sizing: border-box;
+  padding: 28px 32px;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.card.tight { padding: 24px 28px; gap: 14px; }
+.card.white { background: var(--surface); }
+.row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row.tight { gap: 8px; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.spacer { flex: 1 1 0; }
+
+.label-tag {
+  font: var(--t-meta);
+  color: var(--fg-3);
+}
+.mono {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0;
+  color: var(--fg-3);
+}
+
+/* swatch grid */
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 92px;
+}
+.swatch .chip {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-sizing: border-box;
+}
+.swatch .name { font: 500 13px/1.2 var(--font-sans); color: var(--fg-1); }
+.swatch .hex  { font: 500 11px var(--font-sans); font-variant-numeric: tabular-nums lining-nums; color: var(--fg-3); }

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sparsa AI — Daily Feed</title>
+  <link rel="icon" type="image/png" href="../../assets/logo-mark.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: 'Inter', sans-serif; background: #FBF4F1; color: #1E2B22; -webkit-font-smoothing: antialiased; }
+    button { font-family: inherit; border: none; }
+    #root { min-height: 100vh; }
+    /* center column */
+    .feed-column { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 32px; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="Header.jsx"></script>
+  <script type="text/babel" src="FilterPills.jsx"></script>
+  <script type="text/babel" src="MetricCard.jsx"></script>
+  <script type="text/babel" src="FeedCard.jsx"></script>
+  <script type="text/babel" src="SectionLabel.jsx"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    /* --- Static data: Daily Feed for Arcserve Rev Ops, Tuesday 5 May ----- */
+    const filters = [
+      { id:'all',        label:'All',        count:13 },
+      { id:'email',      label:'Email',      count: 7 },
+      { id:'slack',      label:'Slack',      count: 4 },
+      { id:'salesforce', label:'Salesforce', count: 1 },
+      { id:'other',      label:'Other',      count: 1 },
+    ];
+
+    function App() {
+      const [tab, setTab] = useState('feed');
+      const [filter, setFilter] = useState('all');
+      return (
+        <div style={{ minHeight:'100vh', background:'#FBF4F1' }} data-screen-label="01 Daily Feed">
+          <Header />
+          <NavTabs active={tab} onSelect={setTab} />
+
+          <main className="feed-column" style={{ padding:'48px 32px 80px', display:'flex',
+                                                  flexDirection:'column', gap:32 }}>
+            {/* Hero */}
+            <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+              <span style={{ font:'600 12px Inter', letterSpacing:'0.12em',
+                             textTransform:'uppercase', color:'#7A7670' }}>
+                Tuesday · 5 May 2026 · 08:00 · Arcserve Rev Ops
+              </span>
+              <h1 style={{ font:'700 44px/108% Inter',
+                           color:'#1E2B22', letterSpacing:'-0.022em', margin:0 }}>
+                Good morning, Saurabh.
+              </h1>
+              <p style={{ font:'400 16px/150% Inter', color:'#4A4E48', maxWidth:640, margin:0 }}>
+                13 items need your attention today — <strong style={{ color:'#1E2B22' }}>4 critical</strong>,
+                {' '}<strong style={{ color:'#1E2B22' }}>4 decisions pending</strong>,
+                {' '}<strong style={{ color:'#1E2B22' }}>5 to monitor</strong>.
+              </p>
+            </div>
+
+            {/* Metrics */}
+            <MetricRow>
+              <MetricCard eyebrow="Critical"  value="4"     sub="Pipeline & customer risk" tone="critical" />
+              <MetricCard eyebrow="Decisions" value="4"     sub="Pricing, territory, deals" tone="neutral" />
+              <MetricCard eyebrow="Pipeline"  value="$4.2M" sub="Active Q2 pipeline" tone="neutral" />
+              <MetricCard eyebrow="NRR"       value="108%"  sub="Target: 110%" tone="good" />
+            </MetricRow>
+
+            {/* Filter pills */}
+            <FilterPills filters={filters} active={filter} onSelect={setFilter} />
+
+            {/* Critical section */}
+            <SectionLabel count={4} tone="critical">Critical · Needs attention now</SectionLabel>
+
+            <FeedCard
+              id="fi-01"
+              channel="email"
+              author="Tom Brennan"
+              time="06:12"
+              urgency={{ label:'Act now', tone:'critical' }}
+              critical
+              subject="RE: Backup failure on production cluster — URGENT"
+              summary={<>
+                <strong style={{color:'#1E2B22'}}>GlobalMed ($820K ARR)</strong> experienced a backup failure on their production VMware cluster last night. Tom is requesting an emergency call with SE team. <strong style={{color:'#1E2B22'}}>Renewal is in 47 days</strong> — resolution speed directly impacts retention.
+              </>}
+              buttons={[
+                { label:'Schedule emergency call', variant:'primary' },
+                { label:'Escalate to Support',     variant:'ghost' },
+              ]}
+            />
+
+            <FeedCard
+              id="fi-02"
+              channel="slack"
+              author="Daniela Chen"
+              time="07:30"
+              urgency={{ label:'By 12:00', tone:'decision' }}
+              critical
+              subject="Q2 pipeline gap — need Rev Ops analysis ASAP"
+              summary={<>
+                Daniela flagged a <strong style={{color:'#1E2B22'}}>$1.8M gap in Q2 pipeline coverage</strong> vs target. Requesting breakdown by segment and stage. Current pipeline-to-quota ratio is <strong style={{color:'#1E2B22'}}>2.1x</strong> vs the 3x benchmark. Needs analysis before Thursday exec review.
+              </>}
+              buttons={[
+                { label:'Run pipeline analysis', variant:'primary' },
+                { label:'Pull Salesforce report', variant:'ghost' },
+              ]}
+            />
+
+            <FeedCard
+              id="fi-03"
+              channel="email"
+              author="James Harrington"
+              time="07:45"
+              urgency={{ label:'Act now', tone:'critical' }}
+              critical
+              subject="Competitive RFP — Veeam undercutting by 30%"
+              summary={<>
+                <strong style={{color:'#1E2B22'}}>Vertex Aerospace ($950K opportunity)</strong> says Veeam came in 30% below our proposal. James wants updated TCO comparison and immutable storage differentiators by Wednesday. <strong style={{color:'#1E2B22'}}>This is our largest Q2 deal.</strong>
+              </>}
+              buttons={[
+                { label:'Build TCO comparison', variant:'primary' },
+                { label:'Loop in Product Marketing', variant:'ghost' },
+              ]}
+            />
+
+            <FeedCard
+              id="fi-04"
+              channel="salesforce"
+              author="System alert"
+              time="07:55"
+              urgency={{ label:'Decide today', tone:'decision' }}
+              critical
+              subject="Stalled deal: Halberd Defense — no activity in 18 days"
+              summary={<>
+                <strong style={{color:'#1E2B22'}}>Halberd Defense ($1.2M)</strong> stage = Negotiation, last touch 18 days ago. AE is on PTO. Champion responded warmly on Mar 12 but has gone quiet. Suggest <strong style={{color:'#1E2B22'}}>re-engagement via VP Sponsor</strong> before end of quarter.
+              </>}
+              buttons={[
+                { label:'Draft VP Sponsor email', variant:'primary' },
+                { label:'Reassign AE',            variant:'ghost' },
+                { label:'Dismiss',                variant:'danger' },
+              ]}
+            />
+
+            {/* Decision section */}
+            <SectionLabel count={4} tone="decision">Decisions · Pricing, territory, deals</SectionLabel>
+
+            <FeedCard
+              id="fi-05"
+              channel="slack"
+              author="Priya Iyer"
+              time="08:02"
+              urgency={{ label:'By 17:00', tone:'decision' }}
+              subject="Approve 12% custom discount — Quinault Mining renewal"
+              summary={<>
+                Standard discount cap is 8%. Priya is requesting <strong style={{color:'#1E2B22'}}>12%</strong> to retain Quinault Mining ($430K ARR, 3rd year customer). Cohort retention impact: high. <strong style={{color:'#1E2B22'}}>Approval needs your sign-off.</strong>
+              </>}
+              buttons={[
+                { label:'Approve 12%',  variant:'primary' },
+                { label:'Counter at 9%', variant:'ghost' },
+                { label:'Reject',       variant:'danger' },
+              ]}
+            />
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+</body>
+</html>

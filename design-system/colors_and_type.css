@@ -1,0 +1,150 @@
+/* =========================================================================
+   Sparsa AI — Design Tokens
+   Editorial enterprise AI: Inter throughout, forest green chrome,
+   cream paper, terracotta accents. The brand mark (woven knot, forest +
+   terracotta + sage) carries the editorial weight; type stays quiet.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* -- Brand greens --------------------------------------------------- */
+  --green:         #3D5943;   /* primary — header bar, primary buttons, brand */
+  --green-deep:    #324A38;   /* hover / pressed */
+  --green-mute:    #9FADA1;   /* on-dark subtitle, disabled */
+  --green-soft:    #E4ECE3;   /* very pale tint for hover, success bg */
+  --sage:          #BFD2B5;   /* logo sage ribbon (decorative only) */
+  --sage-soft:     #E8EFE2;
+
+  /* -- Surfaces (warm cream paper — lighter, pastel) --------------- */
+  --paper:         #FDF8F4;   /* app background — lifted, less saturated */
+  --paper-sunken:  #F8F0EA;   /* hover row, pressed pill */
+  --surface:       #FFFFFF;   /* cards, modals — pure white (unchanged) */
+  --surface-warm:  #FCF7F3;   /* AI summary card, secondary card */
+
+  /* -- Terracotta / critical accents ---------------------------------- */
+  --terra:         #B33A28;   /* CRITICAL eyebrow, urgent label */
+  --terra-deep:    #8E2D1E;   /* hover, dense ink on light */
+  --terra-soft:    #F6EBE9;   /* chip background (ACT NOW, AI SUMMARY) */
+  --terra-border:  #E4C7BD;   /* chip border, left rail on critical card */
+  --terra-tan:     #BD7A5E;   /* secondary terra accent (icons, chip text, logo ribbon) */
+  --terra-pale:    #F0CBB6;   /* logo highlight ribbon (decorative only) */
+  --salmon:        #CD8C6B;   /* user avatar fill */
+
+  /* -- Functional ----------------------------------------------------- */
+  --warn:          #C28B3C;
+  --warn-soft:     #F6E9D2;
+  --success:       #4F7A55;
+  --success-soft:  #DFE8DC;
+  --danger:        var(--terra);
+  --danger-soft:   var(--terra-soft);
+
+  /* -- Ink (warm grays) ----------------------------------------------- */
+  --fg-1:          #1E2B22;   /* deep forest ink — headings + metrics */
+  --fg-2:          #4A4E48;   /* body */
+  --fg-3:          #7A7670;   /* meta, secondary */
+  --fg-4:          #A89D94;   /* warm muted, eyebrow on light */
+  --fg-on-dark:    #FBF4F1;   /* paper-cream as text on green */
+  --fg-on-dark-2:  var(--green-mute);
+
+  /* -- Borders -------------------------------------------------------- */
+  --border:        #F0E5DC;   /* primary divider — pastel cream-tan */
+  --border-strong: #E5D5C8;
+  --border-cool:   #EAEEF1;
+
+  /* -- Elevation ------------------------------------------------------ */
+  --shadow-1:    0 1px 2px rgba(31, 25, 18, 0.04);
+  --shadow-2:    0 2px 10px rgba(31, 25, 18, 0.06);
+  --shadow-pop:  0 14px 36px rgba(31, 25, 18, 0.14),
+                 0 2px 6px rgba(31, 25, 18, 0.08);
+
+  /* -- Radii ---------------------------------------------------------- */
+  --radius-pill: 999px;
+  --radius-sm:   6px;
+  --radius:      10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+
+  /* -- Spacing -------------------------------------------------------- */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px;
+
+  /* -- Layout --------------------------------------------------------- */
+  --header-h:        64px;
+  --content-w:       900px;       /* legacy reading-column width */
+  --content-min:     1200px;
+
+  /* Page shell — fixed 1400px column centered, 25/75 split.
+     The shell is THE page. No top header bar; nav lives in the left rail. */
+  --page-w:          1400px;      /* fixed centered column */
+  --col-left-pct:    25%;         /* sidebar / nav rail */
+  --col-right-pct:   75%;         /* main content */
+  --col-gap:         var(--space-8);   /* 32px gutter between columns */
+  --page-pad-y:      var(--space-8);   /* 32px top/bottom inside the shell */
+
+  /* -- Typography (Inter only) ---------------------------------------- */
+  --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  /* legacy aliases — kept so consumers don't break if they referenced these */
+  --font-serif: var(--font-sans);
+  --font-mono:  var(--font-sans);
+
+  /* Type ramp — Inter throughout. Display is heavier (700) to carry the
+     editorial weight that the serif previously held.
+     Tabular numerals for metrics so columns line up. */
+  --t-display:    700 42px/108% var(--font-sans);   /* "Good morning, Saurabh." */
+  --t-h2:         700 26px/120% var(--font-sans);
+  --t-h3:         600 20px/130% var(--font-sans);
+  --t-metric:     700 40px/100% var(--font-sans);
+  --t-metric-sm:  700 28px/100% var(--font-sans);
+
+  --t-card-title: 600 14px/140% var(--font-sans);
+  --t-card-sub:   400 13px/140% var(--font-sans);
+  --t-row-title:  600 16px/140% var(--font-sans);
+  --t-body:       400 15px/150% var(--font-sans);
+  --t-default:    400 14px/150% var(--font-sans);
+  --t-meta:       500 12px/140% var(--font-sans);
+  --t-eyebrow:    600 11px/100% var(--font-sans);
+  --t-tab:        500 14px/100% var(--font-sans);
+  --t-mono:       500 12px/130% var(--font-sans);   /* IDs, RFQ codes — Inter with tabular nums */
+
+  --tracking-eyebrow: 0.10em;
+  --tracking-display: -0.022em;   /* tighter — sans display needs it */
+  --tracking-metric:  -0.02em;
+}
+
+/* =========================================================================
+   Semantic defaults
+   ========================================================================= */
+
+html, body { background: var(--paper); color: var(--fg-2); }
+body { font: var(--t-default); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+
+h1 { font: var(--t-display); letter-spacing: var(--tracking-display); color: var(--fg-1); margin: 0; }
+h2 { font: var(--t-h2);      letter-spacing: var(--tracking-display); color: var(--fg-1); margin: 0; }
+h3 { font: var(--t-h3);      letter-spacing: var(--tracking-display); color: var(--fg-1); margin: 0; }
+p  { font: var(--t-body);    color: var(--fg-2); margin: 0; }
+
+.eyebrow {
+  font: var(--t-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--terra);
+}
+.eyebrow--mute { color: var(--fg-3); }
+
+.metric    { font: var(--t-metric);    color: var(--fg-1);
+             letter-spacing: var(--tracking-metric);
+             font-variant-numeric: tabular-nums lining-nums; }
+.metric-sm { font: var(--t-metric-sm); color: var(--fg-1);
+             letter-spacing: var(--tracking-metric);
+             font-variant-numeric: tabular-nums lining-nums; }
+
+code, .mono {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'ss01' 1;
+  color: var(--fg-3);
+}

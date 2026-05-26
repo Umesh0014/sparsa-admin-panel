@@ -1,0 +1,283 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Page layout</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { background: var(--paper); margin: 0; padding: 0;
+               font-family: var(--font-sans); color: var(--fg-1); }
+
+  /* ---------- The page shell ----------------------------------------- */
+  /* Fixed 1400px column, centered. Two-column: 25% / 75% with a gap. */
+  .page {
+    width: var(--page-w);            /* 1400px */
+    margin: 0 auto;
+    padding: var(--page-pad-y) 0;
+    display: grid;
+    grid-template-columns: var(--col-left-pct) var(--col-right-pct);
+    column-gap: var(--col-gap);
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .sidebar {
+    padding-right: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    /* Sidebar fills the full grid-row height; user block pins to bottom
+       inside the 25% column with no absolute positioning. */
+  }
+  .main    { padding-left:  var(--space-2); }
+
+  /* ---------- Measurement chrome (preview only) ---------------------- */
+  .ruler {
+    position: relative; height: 26px; margin: 0 auto 12px;
+    width: var(--page-w);
+    border-left: 1px solid var(--border-strong);
+    border-right: 1px solid var(--border-strong);
+    color: var(--fg-3); font: 500 11px Inter;
+  }
+  .ruler::before { content: ""; position: absolute; left: 0; right: 0; top: 50%;
+                   border-top: 1px dashed var(--border-strong); }
+  .ruler span { position: absolute; top: 50%; transform: translate(-50%, -50%);
+                background: var(--paper); padding: 0 8px;
+                font-variant-numeric: tabular-nums lining-nums; }
+  .ruler .left  { left: 0%; transform: translate(0, -50%); padding-left: 0; }
+  .ruler .mid25 { left: 25%; }
+  .ruler .right { left: 100%; transform: translate(-100%, -50%); padding-right: 0; }
+
+  /* Column-overlay guides — switch via tweaks */
+  .guides .sidebar,
+  .guides .main {
+    outline: 1px dashed var(--border-strong);
+    outline-offset: -1px;
+    background:
+      linear-gradient(rgba(189, 122, 94, 0.04) 0 100%);
+  }
+  .guides .col-label {
+    position: absolute; top: 6px;
+    font: 600 10px Inter; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--terra-tan);
+  }
+
+  /* ---------- Sample content (sidebar + main) ------------------------ */
+  .brand-block {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; background: #fff;
+    border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: var(--space-6);
+  }
+  .brand-mark {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--fg-1); border-radius: 8px;
+    color: var(--paper); display: flex; align-items: center; justify-content: center;
+    font: 700 14px Inter;
+  }
+  .brand-name { font: 600 14px Inter; color: var(--fg-1); line-height: 1.2; }
+  .brand-sub  { font: 400 12px Inter; color: var(--fg-3); line-height: 1.3; }
+
+  .nav-eyebrow {
+    font: 600 11px Inter; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--fg-4); padding: 0 8px 8px;
+  }
+  .nav-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 12px; border-radius: 8px;
+    font: 500 14px Inter; color: var(--fg-2); cursor: pointer;
+  }
+  .nav-item.active { background: #fff; color: var(--fg-1); font-weight: 600;
+                     box-shadow: var(--shadow-1); }
+  .nav-item:hover:not(.active) { background: var(--paper-sunken); }
+  .nav-count {
+    font: 500 12px Inter; color: var(--fg-3);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .user-block {
+    margin-top: auto;        /* push to bottom of the 25% sidebar column */
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; background: #fff;
+    border: 1px solid var(--border); border-radius: 12px;
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--success); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font: 600 13px Inter;
+  }
+
+  /* ---------- Main column blocks ------------------------------------- */
+  .page-head { display: flex; align-items: flex-start; justify-content: space-between;
+               gap: 24px; margin-bottom: var(--space-8); }
+  .page-title { font: 700 32px/1.1 Inter; color: var(--fg-1);
+                letter-spacing: -0.022em; margin: 0 0 6px; }
+  .page-sub   { font: 400 14px/1.4 Inter; color: var(--fg-3); margin: 0; }
+  .pill-btn   { display: inline-flex; align-items: center; gap: 8px;
+                padding: 8px 14px; border-radius: var(--radius-pill);
+                background: #fff; border: 1px solid var(--border);
+                font: 500 13px Inter; color: var(--fg-1); cursor: pointer; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr);
+             gap: var(--space-4); margin-bottom: var(--space-8); }
+  .kpi { padding: 18px 20px; background: #fff;
+         border: 1px solid var(--border); border-radius: 8px; }
+  .kpi-eyebrow { font: 600 14px Inter; color: var(--fg-1); margin-bottom: 2px; }
+  .kpi-sub     { font: 400 13px Inter; color: var(--fg-3); margin-bottom: 16px; }
+  .kpi-val     { font: 700 36px/1 Inter; letter-spacing: -0.02em;
+                 font-variant-numeric: tabular-nums lining-nums; }
+  .kpi-val.blue   { color: #2A6FDB; }
+  .kpi-val.amber  { color: var(--warn); }
+  .kpi-val.green  { color: var(--success); }
+
+  .section-head {
+    display: flex; align-items: center; gap: 10px;
+    font: 700 18px Inter; color: var(--fg-1); margin: 0 0 var(--space-4);
+    letter-spacing: -0.012em;
+  }
+  .section-count {
+    font: 600 11px Inter; padding: 2px 8px; border-radius: 999px;
+    background: #2A6FDB; color: #fff;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .row-card {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 18px; background: #fff;
+    border: 1px solid var(--border); border-radius: 8px;
+    margin-bottom: var(--space-3);
+  }
+  .row-card .row-body { flex: 1; }
+  .row-card .row-title { font: 600 14px Inter; color: var(--fg-1); }
+  .row-card .row-meta  { font: 400 13px Inter; color: var(--fg-3); margin-top: 2px; }
+  .row-card .row-actions { display: flex; gap: 8px; }
+  .btn-primary { padding: 8px 16px; border-radius: var(--radius-pill);
+                 background: var(--fg-1); color: var(--paper);
+                 border: 1px solid var(--fg-1); font: 500 13px Inter; cursor: pointer; }
+  .btn-ghost   { padding: 8px 16px; border-radius: var(--radius-pill);
+                 background: transparent; color: var(--terra-deep);
+                 border: 1px solid var(--terra-border); font: 500 13px Inter; cursor: pointer; }
+  .btn-take    { padding: 8px 16px; border-radius: var(--radius-pill);
+                 background: var(--green-soft); color: var(--success);
+                 border: 1px solid transparent; font: 600 13px Inter; cursor: pointer; }
+  .btn-close   { padding: 8px 16px; border-radius: var(--radius-pill);
+                 background: transparent; color: var(--success);
+                 border: 1px solid transparent; font: 500 13px Inter; cursor: pointer; }
+
+  .icon-circle {
+    width: 32px; height: 32px; flex-shrink: 0;
+    border-radius: 50%; background: #EAF1FA;
+    color: #2A6FDB; display: flex; align-items: center; justify-content: center;
+    font: 600 14px Inter;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ MEASUREMENT RULER ============================ -->
+<div class="ruler" aria-hidden="true">
+  <span class="left">0</span>
+  <span class="mid25">25% / 75% split</span>
+  <span class="right">1400px</span>
+</div>
+
+<!-- ================================ PAGE SHELL =============================== -->
+<div class="page guides" id="page">
+  <span class="col-label" style="left: 0;">Sidebar · 25%</span>
+  <span class="col-label" style="left: 25%; padding-left: 12px;">Main · 75%</span>
+
+  <!-- LEFT COLUMN — 25% — sidebar / navigation ------------------------- -->
+  <aside class="sidebar">
+    <div class="brand-block">
+      <div class="brand-mark">S</div>
+      <div>
+        <div class="brand-name">Sparsa AI</div>
+        <div class="brand-sub">RFQ Product</div>
+      </div>
+    </div>
+
+    <div class="nav-eyebrow">Inbox</div>
+    <div class="nav-item active">
+      <span>🚀 &nbsp; Dashboard</span>
+    </div>
+    <div class="nav-item">
+      <span>⏳ &nbsp; RFQ queue</span>
+      <span class="nav-count">3</span>
+    </div>
+
+    <!-- Pinned to bottom of sidebar via margin-top:auto -->
+    <div class="user-block">
+      <div class="avatar">AT</div>
+      <div>
+        <div class="brand-name">Alex Tan</div>
+        <div class="brand-sub">alex.tan@acme.co</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT COLUMN — 75% — main content -------------------------------- -->
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Monitor your company operations and interact with AI agents.</p>
+      </div>
+      <button class="pill-btn">Admin Console&nbsp;↗</button>
+    </header>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-eyebrow">Active RFQs</div>
+        <div class="kpi-sub">In-progress</div>
+        <div class="kpi-val blue">8</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-eyebrow">Pending Approvals</div>
+        <div class="kpi-sub">Awaiting action</div>
+        <div class="kpi-val amber">1</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-eyebrow">Completed Today</div>
+        <div class="kpi-sub">Orders delivered</div>
+        <div class="kpi-val green">12</div>
+      </div>
+    </div>
+
+    <h2 class="section-head">Discount approval request <span class="section-count">1</span></h2>
+    <div class="row-card">
+      <div class="icon-circle">⚖︎</div>
+      <div class="row-body">
+        <div class="row-title">10% Discount approval request — RFQ 2662</div>
+        <div class="row-meta">RFQ-2026-00124 · Requested by Sarah Chen (Sales Engineer)</div>
+      </div>
+      <div class="row-actions">
+        <button class="btn-primary">Approve discount</button>
+        <button class="btn-ghost">Reject</button>
+      </div>
+    </div>
+
+    <h2 class="section-head" style="margin-top: var(--space-8)">Takeover requests <span class="section-count">2</span></h2>
+    <div class="row-card">
+      <div class="icon-circle">ⓘ</div>
+      <div class="row-body">
+        <div class="row-title">Takeover request — Action required</div>
+        <div class="row-meta">Complex technical requirements</div>
+        <div class="row-meta"><strong style="color:var(--fg-1)">Reason:</strong> Customer asking for advanced specifications beyond my knowledge</div>
+      </div>
+      <div class="row-actions">
+        <button class="btn-take">Take over</button>
+        <button class="btn-close">Close</button>
+      </div>
+    </div>
+    <div class="row-card">
+      <div class="icon-circle">ⓘ</div>
+      <div class="row-body">
+        <div class="row-title">Takeover request — Action required</div>
+        <div class="row-meta">Complex technical requirements</div>
+        <div class="row-meta"><strong style="color:var(--fg-1)">Reason:</strong> Customer asking for advanced specifications beyond my knowledge</div>
+      </div>
+      <div class="row-actions">
+        <button class="btn-take">Take over</button>
+        <button class="btn-close">Close</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body></html>

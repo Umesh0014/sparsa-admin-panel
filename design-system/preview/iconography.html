@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Iconography</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 14px 12px;
+    width: 100%;
+  }
+  .icon-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 6px;
+    background: #fff;
+    border: 1px solid #E7D9D0;
+    border-radius: 8px;
+  }
+  .icon-cell img { width: 24px; height: 24px; display: block; color: #1E2B22; }
+  .icon-cell .name {
+    font: 500 10.5px Inter; color: #7A7670;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+  }
+
+  .tone-row { display: flex; align-items: center; gap: 24px; }
+  .tone {
+    display: flex; align-items: center; gap: 8px;
+    font: 500 12.5px Inter;
+  }
+  .tone img { width: 20px; height: 20px; display: block; }
+  .tone.neutral { color: #7A7670; }
+  .tone.fg      { color: #1E2B22; }
+  .tone.terra   { color: #B33A28; }
+  .tone.ai      { color: #BD7A5E; }
+  .tone.success { color: #4F7A55; }
+
+  .size-row { display: flex; align-items: flex-end; gap: 20px; }
+  .size { display: flex; flex-direction: column; align-items: center; gap: 6px;
+          font: 500 10.5px Inter; color: #7A7670; }
+  .size img { display: block; color: #1E2B22; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Family + curated set -->
+  <div>
+    <div style="font:600 13px Inter;color:#1E2B22;margin-bottom:4px">Phosphor Icons · Regular</div>
+    <div class="mono" style="margin-bottom:14px">Sparsa uses <strong style="color:#1E2B22">Phosphor Icons</strong> at the <strong style="color:#1E2B22">Regular</strong> weight — a 1.5-unit visual stroke in a 32×32 frame. Filled paths using <code style="font-family:Inter;font-weight:500">currentColor</code> so any icon inherits the surrounding text color. Curated subset shipped in <code style="font-family:Inter;font-weight:500">assets/icons/</code>; the full 1500+ icon set lives on the CDN (see below).</div>
+    <div class="icon-grid">
+      <div class="icon-cell"><img src="../assets/icons/envelope.svg" alt=""><span class="name">envelope</span></div>
+      <div class="icon-cell"><img src="../assets/icons/chat-circle.svg" alt=""><span class="name">chat-circle</span></div>
+      <div class="icon-cell"><img src="../assets/icons/bell.svg" alt=""><span class="name">bell</span></div>
+      <div class="icon-cell"><img src="../assets/icons/check-circle.svg" alt=""><span class="name">check-circle</span></div>
+      <div class="icon-cell"><img src="../assets/icons/warning.svg" alt=""><span class="name">warning</span></div>
+      <div class="icon-cell"><img src="../assets/icons/sparkle.svg" alt=""><span class="name">sparkle</span></div>
+      <div class="icon-cell"><img src="../assets/icons/lightbulb.svg" alt=""><span class="name">lightbulb</span></div>
+      <div class="icon-cell"><img src="../assets/icons/chart-line.svg" alt=""><span class="name">chart-line</span></div>
+      <div class="icon-cell"><img src="../assets/icons/file-text.svg" alt=""><span class="name">file-text</span></div>
+      <div class="icon-cell"><img src="../assets/icons/clock.svg" alt=""><span class="name">clock</span></div>
+      <div class="icon-cell"><img src="../assets/icons/calendar-check.svg" alt=""><span class="name">calendar-check</span></div>
+      <div class="icon-cell"><img src="../assets/icons/currency-dollar.svg" alt=""><span class="name">currency-dollar</span></div>
+      <div class="icon-cell"><img src="../assets/icons/buildings.svg" alt=""><span class="name">buildings</span></div>
+      <div class="icon-cell"><img src="../assets/icons/user.svg" alt=""><span class="name">user</span></div>
+      <div class="icon-cell"><img src="../assets/icons/gear.svg" alt=""><span class="name">gear</span></div>
+      <div class="icon-cell"><img src="../assets/icons/magnifying-glass.svg" alt=""><span class="name">magnifying-glass</span></div>
+      <div class="icon-cell"><img src="../assets/icons/arrow-right.svg" alt=""><span class="name">arrow-right</span></div>
+      <div class="icon-cell"><img src="../assets/icons/plus.svg" alt=""><span class="name">plus</span></div>
+      <div class="icon-cell"><img src="../assets/icons/x.svg" alt=""><span class="name">x</span></div>
+      <div class="icon-cell"><img src="../assets/icons/dots-three.svg" alt=""><span class="name">dots-three</span></div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid #E7D9D0"></div>
+
+  <!-- Sizes -->
+  <div>
+    <div style="font:600 13px Inter;color:#1E2B22;margin-bottom:10px">Sizes</div>
+    <div class="size-row">
+      <div class="size"><img src="../assets/icons/check-circle.svg" style="width:14px;height:14px"><span>14 · inline meta</span></div>
+      <div class="size"><img src="../assets/icons/check-circle.svg" style="width:16px;height:16px"><span>16 · default body</span></div>
+      <div class="size"><img src="../assets/icons/check-circle.svg" style="width:20px;height:20px"><span>20 · UI control</span></div>
+      <div class="size"><img src="../assets/icons/check-circle.svg" style="width:24px;height:24px"><span>24 · nav rail</span></div>
+      <div class="size"><img src="../assets/icons/check-circle.svg" style="width:32px;height:32px"><span>32 · feature</span></div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid #E7D9D0"></div>
+
+  <!-- Color tokens -->
+  <div>
+    <div style="font:600 13px Inter;color:#1E2B22;margin-bottom:10px">Color &mdash; via <code style="font-family:Inter;font-weight:500">currentColor</code></div>
+    <div class="tone-row">
+      <span class="tone fg"><img src="../assets/icons/check-circle.svg" alt="">fg-1 · ink</span>
+      <span class="tone neutral"><img src="../assets/icons/check-circle.svg" alt="">fg-3 · neutral</span>
+      <span class="tone terra"><img src="../assets/icons/warning.svg" alt="">terra · critical</span>
+      <span class="tone ai"><img src="../assets/icons/sparkle.svg" alt="">terra-tan · AI</span>
+      <span class="tone success"><img src="../assets/icons/check-circle.svg" alt="">success</span>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid #E7D9D0"></div>
+
+  <!-- Usage notes -->
+  <div class="mono" style="line-height:1.5">
+    <strong style="color:#1E2B22">Defaults:</strong> 20px in a 32×32 viewBox. <strong style="color:#1E2B22">Regular weight</strong> is the only weight Sparsa uses — do not mix in Thin / Bold / Fill / Duotone. Filled paths use <code style="font-family:Inter;font-weight:500">currentColor</code> so set the icon's color via the parent's <code style="font-family:Inter;font-weight:500">color</code> property, not the SVG itself.<br><br>
+    <strong style="color:#1E2B22">CDN:</strong> for full icon catalog, load <code style="font-family:Inter;font-weight:500">&lt;link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2/src/regular/style.css"&gt;</code> then write <code style="font-family:Inter;font-weight:500">&lt;i class="ph ph-envelope"&gt;&lt;/i&gt;</code>.
+  </div>
+</div>
+</body></html>
