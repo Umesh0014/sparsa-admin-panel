@@ -291,23 +291,34 @@
     .section:first-child {
       margin-top: 0;
     }
-    .section-head {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      font: 700 18px/1 var(--font-sans);
-      color: var(--fg-1);
-      letter-spacing: -0.012em;
-      margin: 0 0 var(--space-2);
+    .section-heading {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 0 12px;
+      align-items: start;
+      margin-bottom: var(--space-5);
     }
-    .section-head i {
+    .section-heading i {
       font-size: 20px;
       color: var(--fg-3);
+      line-height: 24px;
+      grid-row: 1;
+      grid-column: 1;
     }
-    .section-desc {
+    .section-heading .section-title {
+      font: 700 18px/24px var(--font-sans);
+      color: var(--fg-1);
+      letter-spacing: -0.012em;
+      margin: 0;
+      grid-row: 1;
+      grid-column: 2;
+    }
+    .section-heading .section-desc {
       font: var(--t-default);
       color: var(--fg-3);
-      margin: 0 0 var(--space-5);
+      margin: 4px 0 0;
+      grid-row: 2;
+      grid-column: 2;
     }
 
     /* ===== Settings card (key-value rows) ===== */
@@ -2096,8 +2107,11 @@
 
       <!-- Workspace -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-gear"></i>Workspace</h2>
-        <p class="section-desc">Basic information shown across the platform.</p>
+        <div class="section-heading">
+          <i class="ph ph-gear"></i>
+          <h2 class="section-title">Workspace</h2>
+          <p class="section-desc">Basic information shown across the platform.</p>
+        </div>
         <div class="settings-card">
           <div class="settings-row" id="ws-name-row">
             <span class="settings-label">Workspace name</span>
@@ -2130,8 +2144,11 @@
 
       <!-- Languages -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-globe"></i>Languages</h2>
-        <p class="section-desc">Languages your users can choose from across the platform.</p>
+        <div class="section-heading">
+          <i class="ph ph-globe"></i>
+          <h2 class="section-title">Languages</h2>
+          <p class="section-desc">Languages your users can choose from across the platform.</p>
+        </div>
         <div class="table-toolbar">
           <div class="search-input">
             <i class="ph ph-magnifying-glass"></i>
@@ -2184,8 +2201,11 @@
 
       <!-- Blocked countries -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-prohibit"></i>Blocked countries</h2>
-        <p class="section-desc">Users from these countries cannot access the platform.</p>
+        <div class="section-heading">
+          <i class="ph ph-prohibit"></i>
+          <h2 class="section-title">Blocked countries</h2>
+          <p class="section-desc">Users from these countries cannot access the platform.</p>
+        </div>
         <div class="table-toolbar">
           <div class="search-input">
             <i class="ph ph-magnifying-glass"></i>
@@ -2267,8 +2287,11 @@
 
       <!-- Integrations -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-plugs-connected"></i>Integrations</h2>
-        <p class="section-desc">Connected services and API access for this workspace.</p>
+        <div class="section-heading">
+          <i class="ph ph-plugs-connected"></i>
+          <h2 class="section-title">Integrations</h2>
+          <p class="section-desc">Connected services and API access for this workspace.</p>
+        </div>
         <div class="settings-card">
           <div class="settings-row">
             <span class="settings-label">Salesforce</span>
@@ -2304,8 +2327,11 @@
 
       <!-- Notifications -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-bell"></i>Notifications</h2>
-        <p class="section-desc">Control how alerts and updates are delivered.</p>
+        <div class="section-heading">
+          <i class="ph ph-bell"></i>
+          <h2 class="section-title">Notifications</h2>
+          <p class="section-desc">Control how alerts and updates are delivered.</p>
+        </div>
         <div class="settings-card">
           <div class="settings-row">
             <span class="settings-label">Email alerts for escalations</span>
@@ -2338,7 +2364,10 @@
 
       <!-- Seats section -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-user"></i>Seats</h2>
+        <div class="section-heading">
+          <i class="ph ph-user"></i>
+          <h2 class="section-title">Seats</h2>
+        </div>
         <div class="seats-row">
           <div class="seats-info">
             <div class="seats-title" id="seats-title">3 of 5 seats used</div>
@@ -2353,7 +2382,10 @@
 
       <!-- Members section -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-users-three"></i>Members</h2>
+        <div class="section-heading">
+          <i class="ph ph-users-three"></i>
+          <h2 class="section-title">Members</h2>
+        </div>
         <div class="table-toolbar">
           <div class="search-input">
             <i class="ph ph-magnifying-glass"></i>
@@ -2403,8 +2435,11 @@
 
       <!-- Conversation outcomes -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-chart-pie-slice"></i>Conversation outcomes</h2>
-        <p class="section-desc">Breakdown of conversation results.</p>
+        <div class="section-heading">
+          <i class="ph ph-chart-pie-slice"></i>
+          <h2 class="section-title">Conversation outcomes</h2>
+          <p class="section-desc">Breakdown of conversation results.</p>
+        </div>
         <div class="funnel-card">
           <div class="funnel-bar" id="funnel-bar"></div>
           <div class="funnel-legend" id="funnel-legend"></div>
@@ -2413,59 +2448,72 @@
 
       <!-- Conversations by workflow -->
       <div class="section">
-        <h2 class="section-head"><i class="ph ph-list-dashes"></i>Conversations by workflow</h2>
-        <p class="section-desc">Volume by workflow, compared to the previous month.</p>
+        <div class="section-heading">
+          <i class="ph ph-list-dashes"></i>
+          <h2 class="section-title">Conversations by workflow</h2>
+          <p class="section-desc">Volume by workflow, compared to the previous month.</p>
+        </div>
         <div class="workflow-card">
           <div id="workflow-rows"></div>
         </div>
       </div>
 
-      <!-- Detailed analysis group -->
-      <div class="detail-section">
-        <div class="detail-section-head">
-          <h2 class="section-head" style="margin:0">Detailed analysis</h2>
-          <p style="font:var(--t-card-sub);color:var(--fg-3);margin:var(--space-1) 0 0">Volumes and reasons in depth.</p>
+      <!-- Summary volumes -->
+      <div class="section">
+        <div class="section-heading">
+          <i class="ph ph-chart-bar"></i>
+          <h2 class="section-title">Summary volumes</h2>
+          <p class="section-desc">Outcome counts by month.</p>
         </div>
-        <div class="detail-grid">
-          <div class="section" style="margin-top:0">
-            <h2 class="section-head"><i class="ph ph-chart-bar"></i>Summary volumes</h2>
-            <p class="section-desc">Outcome counts by month.</p>
-            <div class="detail-card">
-              <div class="detail-card-body">
-                <div id="chart-a-container"></div>
-                <div id="chart-a-table"></div>
-              </div>
-            </div>
+        <div class="detail-card">
+          <div class="detail-card-body">
+            <div id="chart-a-container"></div>
+            <div id="chart-a-table"></div>
           </div>
-          <div class="section" style="margin-top:0">
-            <h2 class="section-head"><i class="ph ph-warning-circle"></i>Fail reasons (Level 1)</h2>
-            <p class="section-desc">Why sessions didn't complete — abandoned + failed combined.</p>
-            <div class="detail-card">
-              <div class="detail-card-body">
-                <div id="chart-b-container"></div>
-                <div id="chart-b-table"></div>
-              </div>
-            </div>
+        </div>
+      </div>
+
+      <!-- Fail reasons (Level 1) -->
+      <div class="section">
+        <div class="section-heading">
+          <i class="ph ph-warning-circle"></i>
+          <h2 class="section-title">Fail reasons (Level 1)</h2>
+          <p class="section-desc">Why sessions didn't complete — abandoned + failed combined.</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-body">
+            <div id="chart-b-container"></div>
+            <div id="chart-b-table"></div>
           </div>
-          <div class="section" style="margin-top:0">
-            <h2 class="section-head"><i class="ph ph-chart-donut"></i>Split by resolution</h2>
-            <p class="section-desc">Outcome distribution by month.</p>
-            <div class="detail-card">
-              <div class="detail-card-body">
-                <div id="chart-c-container"></div>
-                <div id="chart-c-table"></div>
-              </div>
-            </div>
+        </div>
+      </div>
+
+      <!-- Split by resolution -->
+      <div class="section">
+        <div class="section-heading">
+          <i class="ph ph-chart-donut"></i>
+          <h2 class="section-title">Split by resolution</h2>
+          <p class="section-desc">Outcome distribution by month.</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-body">
+            <div id="chart-c-container"></div>
+            <div id="chart-c-table"></div>
           </div>
-          <div class="section" style="margin-top:0">
-            <h2 class="section-head"><i class="ph ph-sign-out"></i>User abandoned reasons (Level 2)</h2>
-            <p class="section-desc">Where in the flow users dropped off.</p>
-            <div class="detail-card">
-              <div class="detail-card-body">
-                <div id="chart-d-container"></div>
-                <div id="chart-d-table"></div>
-              </div>
-            </div>
+        </div>
+      </div>
+
+      <!-- User abandoned reasons (Level 2) -->
+      <div class="section">
+        <div class="section-heading">
+          <i class="ph ph-sign-out"></i>
+          <h2 class="section-title">User abandoned reasons (Level 2)</h2>
+          <p class="section-desc">Where in the flow users dropped off.</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-body">
+            <div id="chart-d-container"></div>
+            <div id="chart-d-table"></div>
           </div>
         </div>
       </div>
