@@ -39,7 +39,7 @@
       align-items: center;
       gap: var(--space-3);
       padding: 14px var(--space-4);
-      margin-bottom: var(--space-6);
+      margin-bottom: var(--space-8);
     }
     .brand-mark {
       width: 36px;
@@ -68,15 +68,19 @@
       letter-spacing: var(--tracking-eyebrow);
       text-transform: uppercase;
       color: var(--fg-4);
-      padding: 0 var(--space-2) var(--space-2);
+      padding: 0 var(--space-2);
+      margin-bottom: var(--space-3);
     }
 
+    .nav-item + .nav-item {
+      margin-top: var(--space-2);
+    }
 
     .nav-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 9px var(--space-3);
+      padding: 12px var(--space-3);
       border-radius: var(--radius-sm);
       font: var(--t-tab);
       color: var(--fg-2);
@@ -86,7 +90,7 @@
     }
     .nav-item i {
       font-size: 16px;
-      margin-right: var(--space-2);
+      margin-right: var(--space-3);
     }
     .nav-item.active {
       background: var(--surface);
@@ -127,6 +131,7 @@
       letter-spacing: var(--tracking-eyebrow);
       text-transform: uppercase;
       white-space: nowrap;
+      margin-left: var(--space-2);
     }
 
     /* Sidebar divider */
@@ -281,7 +286,10 @@
 
     /* ===== Content sections ===== */
     .section {
-      margin-bottom: var(--space-8);
+      margin-top: var(--space-section);
+    }
+    .section:first-child {
+      margin-top: 0;
     }
     .section-head {
       display: flex;
@@ -342,17 +350,107 @@
     .settings-action:hover {
       color: var(--green-deep);
     }
+    .icon-btn {
+      color: var(--fg-3);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      font-size: 16px;
+      border-radius: var(--radius-sm);
+      transition: color 150ms cubic-bezier(.2,.6,.2,1),
+                  background 150ms cubic-bezier(.2,.6,.2,1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-btn:hover {
+      color: var(--fg-1);
+      background: var(--paper-sunken);
+    }
+    .icon-btn--save {
+      color: var(--success);
+    }
+    .icon-btn--save:hover {
+      color: var(--green-deep);
+      background: var(--green-mute);
+    }
+    .icon-btn--cancel {
+      color: var(--fg-3);
+    }
     .copy-btn {
       color: var(--fg-3);
       background: none;
       border: none;
       cursor: pointer;
-      padding: var(--space-1);
+      padding: 6px;
       font-size: 16px;
-      transition: color 150ms cubic-bezier(.2,.6,.2,1);
+      border-radius: var(--radius-sm);
+      transition: color 150ms cubic-bezier(.2,.6,.2,1),
+                  background 150ms cubic-bezier(.2,.6,.2,1);
     }
     .copy-btn:hover {
       color: var(--fg-1);
+      background: var(--paper-sunken);
+    }
+
+    .ws-edit-input {
+      font: var(--t-default);
+      color: var(--fg-1);
+      background: var(--paper-sunken);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px 8px;
+      text-align: right;
+      outline: none;
+      width: 200px;
+      transition: border-color 150ms ease;
+    }
+    .ws-edit-input:focus {
+      border-color: var(--green);
+    }
+    .ws-edit-input.error {
+      border-color: var(--danger, #c0392b);
+    }
+    .ws-edit-error {
+      font: var(--t-card-sub);
+      color: var(--danger, #c0392b);
+      margin-top: 4px;
+      text-align: right;
+      display: none;
+    }
+    .ws-edit-actions {
+      display: flex;
+      gap: 4px;
+    }
+    @keyframes ws-name-flash {
+      0%   { background: var(--green-mute); }
+      100% { background: transparent; }
+    }
+    .ws-name-flash {
+      animation: ws-name-flash 1.5s ease-out;
+    }
+
+    .copy-chip {
+      font: 500 11px/1 var(--font-sans);
+      color: var(--success);
+      background: var(--green-mute);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      opacity: 0;
+      transition: opacity 150ms ease;
+      pointer-events: none;
+    }
+    .copy-chip.visible {
+      opacity: 1;
+    }
+    .copy-chip.fading {
+      opacity: 0;
+      transition: opacity 250ms ease;
+    }
+    .copy-chip.error {
+      color: var(--danger, #c0392b);
+      background: rgba(192,57,43,0.1);
     }
 
     /* ===== Search input ===== */
@@ -647,6 +745,15 @@
     }
 
     /* ===== Modal ===== */
+    @keyframes modal-enter {
+      from { transform: translateY(100vh); }
+      to   { transform: translateY(0); }
+    }
+    @keyframes modal-exit {
+      from { transform: translateY(0); }
+      to   { transform: translateY(100vh); }
+    }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -657,12 +764,20 @@
       z-index: 200;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 200ms cubic-bezier(.2,.6,.2,1),
-                  visibility 200ms;
+      transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0ms linear 280ms;
     }
     .modal-overlay.open {
       opacity: 1;
       visibility: visible;
+      transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0ms linear 0ms;
+    }
+    .modal-overlay.closing {
+      opacity: 0;
+      visibility: visible;
+      transition: opacity 220ms cubic-bezier(0.4, 0, 1, 1),
+                  visibility 0ms linear 220ms;
     }
     .modal {
       background: var(--surface);
@@ -672,6 +787,31 @@
       max-width: 90vw;
       max-height: 90vh;
       overflow-y: auto;
+      transform: translateY(100vh);
+    }
+    .modal-overlay.open .modal {
+      animation: modal-enter 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .modal-overlay.closing .modal {
+      animation: modal-exit 220ms cubic-bezier(0.4, 0, 1, 1) forwards;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      @keyframes modal-enter {
+        from { opacity: 0; transform: none; }
+        to   { opacity: 1; transform: none; }
+      }
+      @keyframes modal-exit {
+        from { opacity: 1; transform: none; }
+        to   { opacity: 0; transform: none; }
+      }
+      .modal-overlay.open .modal {
+        animation-duration: 150ms;
+      }
+      .modal-overlay.closing .modal {
+        animation-duration: 150ms;
+      }
     }
     .modal-header {
       display: flex;
@@ -717,6 +857,125 @@
       height: 1px;
       background: var(--border);
       margin: var(--space-5) 0;
+    }
+
+    /* ===== Picker modal (language / country) ===== */
+    .modal--picker .modal-body {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(600px - 140px);
+    }
+    .picker-search {
+      position: sticky;
+      top: 0;
+      padding: var(--space-4) var(--space-6);
+      background: var(--surface);
+      z-index: 1;
+    }
+    .picker-search .search-input {
+      width: 100%;
+    }
+    .picker-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0 var(--space-3) var(--space-3);
+    }
+    .picker-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: 10px var(--space-3);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 120ms ease;
+    }
+    .picker-item:hover:not(.picker-item--disabled) {
+      background: var(--paper-sunken);
+    }
+    .picker-item.picker-item--selected {
+      background: var(--green-mute);
+    }
+    .picker-item.picker-item--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .picker-item-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .picker-item-primary {
+      font: var(--t-card-title);
+      color: var(--fg-1);
+    }
+    .picker-item-secondary {
+      font: var(--t-card-sub);
+      color: var(--fg-3);
+    }
+    .picker-item-trail {
+      font: var(--t-meta);
+      color: var(--fg-3);
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+    }
+    .picker-item-badge {
+      font: var(--t-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--fg-4);
+      background: var(--paper-sunken);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-pill);
+      flex-shrink: 0;
+    }
+    .picker-check {
+      color: var(--success);
+      font-size: 18px;
+      flex-shrink: 0;
+      display: none;
+    }
+    .picker-item--selected .picker-check {
+      display: block;
+    }
+    .picker-empty {
+      text-align: center;
+      padding: var(--space-8) var(--space-4);
+      font: var(--t-default);
+      color: var(--fg-4);
+    }
+    .picker-all-used {
+      text-align: center;
+      padding: var(--space-4) var(--space-4) 0;
+      font: var(--t-card-sub);
+      color: var(--fg-4);
+    }
+    .modal-error {
+      font: var(--t-card-sub);
+      color: var(--danger, #c0392b);
+      padding: 0 var(--space-6) var(--space-3);
+    }
+    .picker-region {
+      font: var(--t-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--fg-4);
+      flex-shrink: 0;
+    }
+    .picker-flag {
+      font-size: 20px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes row-highlight {
+      0%   { background: var(--green-mute); }
+      100% { background: transparent; }
+    }
+    .row-highlight td {
+      animation: row-highlight 1.5s ease-out;
     }
 
     /* ===== Stepper ===== */
@@ -1113,12 +1372,6 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: var(--space-5);
-      margin-bottom: var(--space-6);
-    }
-    .funnel-card-title {
-      font: var(--t-card-title);
-      color: var(--fg-1);
-      margin-bottom: var(--space-4);
     }
 
     /* --- Stacked bar ---- */
@@ -1217,16 +1470,10 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: var(--space-5);
-      margin-bottom: var(--space-6);
-    }
-    .workflow-card-title {
-      font: var(--t-card-title);
-      color: var(--fg-1);
-      margin-bottom: var(--space-4);
     }
     .wf-row {
       display: grid;
-      grid-template-columns: 200px 1fr 60px;
+      grid-template-columns: 200px 1fr auto;
       align-items: center;
       gap: var(--space-4);
       padding: var(--space-2) 0;
@@ -1262,10 +1509,13 @@
       color: var(--fg-1);
       text-align: right;
       font-variant-numeric: tabular-nums lining-nums;
+      white-space: nowrap;
+      min-width: 150px;
     }
     .wf-delta {
       font: 400 11px var(--font-sans);
       color: var(--fg-4);
+      margin-left: 6px;
     }
 
     /* --- Drill overlay ---- */
@@ -1667,7 +1917,7 @@
 
     /* --- Detailed analysis section ---- */
     .detail-section {
-      margin-top: var(--space-8);
+      margin-top: var(--space-section);
     }
     .detail-section-head {
       margin-bottom: var(--space-6);
@@ -1682,16 +1932,6 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: var(--space-5);
-    }
-    .detail-card-title {
-      font: var(--t-card-title);
-      color: var(--fg-1);
-      margin-bottom: 2px;
-    }
-    .detail-card-sub {
-      font: var(--t-card-sub);
-      color: var(--fg-3);
-      margin-bottom: var(--space-5);
     }
     .detail-card-body {
       display: grid;
@@ -1814,7 +2054,7 @@
       <span class="nav-dot"></span>
     </div>
     <div class="nav-item disabled">
-      <span><i class="ph ph-shield-check"></i>GSC Gatekeeper</span>
+      <span><i class="ph ph-shield-check"></i>Gatekeeper</span>
       <span class="badge-soon">Coming soon</span>
     </div>
 
@@ -1859,18 +2099,30 @@
         <h2 class="section-head"><i class="ph ph-gear"></i>Workspace</h2>
         <p class="section-desc">Basic information shown across the platform.</p>
         <div class="settings-card">
-          <div class="settings-row">
+          <div class="settings-row" id="ws-name-row">
             <span class="settings-label">Workspace name</span>
-            <div class="settings-value">
-              <span>QNET Gatekeeper</span>
-              <button class="settings-action">Edit</button>
+            <div class="settings-value" id="ws-name-view">
+              <span id="ws-name-text">QNET Gatekeeper</span>
+              <button class="icon-btn" onclick="startEditWsName()" aria-label="Edit workspace name" title="Edit"><i class="ph ph-pencil-simple"></i></button>
+            </div>
+            <div class="settings-value" id="ws-name-edit" style="display:none">
+              <div style="display:flex;flex-direction:column;align-items:flex-end">
+                <input type="text" class="ws-edit-input" id="ws-name-input" />
+                <div class="ws-edit-error" id="ws-name-error"></div>
+              </div>
+              <div class="ws-edit-actions">
+                <button class="icon-btn icon-btn--save" onclick="saveWsName()" aria-label="Save" title="Save"><i class="ph ph-check" id="ws-save-icon"></i></button>
+                <button class="icon-btn icon-btn--cancel" onclick="cancelEditWsName()" aria-label="Cancel" title="Cancel"><i class="ph ph-x"></i></button>
+              </div>
             </div>
           </div>
           <div class="settings-row">
             <span class="settings-label">Tenant ID</span>
             <div class="settings-value">
-              <span class="td-mono">qnet-gk-2024</span>
-              <button class="copy-btn" title="Copy"><i class="ph ph-copy"></i></button>
+              <span class="td-mono" id="tenant-id-text">qnet-gk-2024</span>
+              <span class="copy-chip" id="copy-chip">Copied</span>
+              <button class="copy-btn" id="copy-btn" onclick="copyTenantId()" title="Copy" aria-label="Copy Tenant ID"><i class="ph ph-copy" id="copy-icon"></i></button>
+              <span aria-live="polite" id="copy-announce" style="position:absolute;left:-9999px"></span>
             </div>
           </div>
         </div>
@@ -1885,7 +2137,7 @@
             <i class="ph ph-magnifying-glass"></i>
             <input type="text" placeholder="Search languages..." />
           </div>
-          <button class="btn-ghost"><i class="ph ph-plus"></i>Add language</button>
+          <button class="btn-ghost" onclick="openLangModal()"><i class="ph ph-plus"></i>Add language</button>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
@@ -1939,7 +2191,7 @@
             <i class="ph ph-magnifying-glass"></i>
             <input type="text" placeholder="Search countries..." />
           </div>
-          <button class="btn-ghost"><i class="ph ph-plus"></i>Add country</button>
+          <button class="btn-ghost" onclick="openCountryModal()"><i class="ph ph-plus"></i>Add country</button>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
@@ -2149,56 +2401,70 @@
       <!-- KPI tiles -->
       <div class="kpi-grid" id="kpi-grid"></div>
 
-      <!-- Funnel card -->
-      <div class="funnel-card">
-        <div class="funnel-card-title">Conversation outcomes</div>
-        <div class="funnel-bar" id="funnel-bar"></div>
-        <div class="funnel-legend" id="funnel-legend"></div>
+      <!-- Conversation outcomes -->
+      <div class="section">
+        <h2 class="section-head"><i class="ph ph-chart-pie-slice"></i>Conversation outcomes</h2>
+        <p class="section-desc">Breakdown of conversation results.</p>
+        <div class="funnel-card">
+          <div class="funnel-bar" id="funnel-bar"></div>
+          <div class="funnel-legend" id="funnel-legend"></div>
+        </div>
       </div>
 
-      <!-- Workflow card -->
-      <div class="workflow-card">
-        <div class="workflow-card-title">Conversations by workflow</div>
-        <div id="workflow-rows"></div>
+      <!-- Conversations by workflow -->
+      <div class="section">
+        <h2 class="section-head"><i class="ph ph-list-dashes"></i>Conversations by workflow</h2>
+        <p class="section-desc">Volume by workflow, compared to the previous month.</p>
+        <div class="workflow-card">
+          <div id="workflow-rows"></div>
+        </div>
       </div>
 
-      <!-- Detailed analysis section -->
+      <!-- Detailed analysis group -->
       <div class="detail-section">
         <div class="detail-section-head">
           <h2 class="section-head" style="margin:0">Detailed analysis</h2>
           <p style="font:var(--t-card-sub);color:var(--fg-3);margin:var(--space-1) 0 0">Volumes and reasons in depth.</p>
         </div>
         <div class="detail-grid">
-          <div class="detail-card">
-            <div class="detail-card-title">Summary volumes</div>
-            <div class="detail-card-sub">Outcome counts by month.</div>
-            <div class="detail-card-body">
-              <div id="chart-a-container"></div>
-              <div id="chart-a-table"></div>
+          <div class="section" style="margin-top:0">
+            <h2 class="section-head"><i class="ph ph-chart-bar"></i>Summary volumes</h2>
+            <p class="section-desc">Outcome counts by month.</p>
+            <div class="detail-card">
+              <div class="detail-card-body">
+                <div id="chart-a-container"></div>
+                <div id="chart-a-table"></div>
+              </div>
             </div>
           </div>
-          <div class="detail-card">
-            <div class="detail-card-title">Fail reasons (Level 1)</div>
-            <div class="detail-card-sub">Why sessions didn't complete — abandoned + failed combined.</div>
-            <div class="detail-card-body">
-              <div id="chart-b-container"></div>
-              <div id="chart-b-table"></div>
+          <div class="section" style="margin-top:0">
+            <h2 class="section-head"><i class="ph ph-warning-circle"></i>Fail reasons (Level 1)</h2>
+            <p class="section-desc">Why sessions didn't complete — abandoned + failed combined.</p>
+            <div class="detail-card">
+              <div class="detail-card-body">
+                <div id="chart-b-container"></div>
+                <div id="chart-b-table"></div>
+              </div>
             </div>
           </div>
-          <div class="detail-card">
-            <div class="detail-card-title">Split by resolution</div>
-            <div class="detail-card-sub">Outcome distribution by month.</div>
-            <div class="detail-card-body">
-              <div id="chart-c-container"></div>
-              <div id="chart-c-table"></div>
+          <div class="section" style="margin-top:0">
+            <h2 class="section-head"><i class="ph ph-chart-donut"></i>Split by resolution</h2>
+            <p class="section-desc">Outcome distribution by month.</p>
+            <div class="detail-card">
+              <div class="detail-card-body">
+                <div id="chart-c-container"></div>
+                <div id="chart-c-table"></div>
+              </div>
             </div>
           </div>
-          <div class="detail-card">
-            <div class="detail-card-title">User abandoned reasons (Level 2)</div>
-            <div class="detail-card-sub">Where in the flow users dropped off.</div>
-            <div class="detail-card-body">
-              <div id="chart-d-container"></div>
-              <div id="chart-d-table"></div>
+          <div class="section" style="margin-top:0">
+            <h2 class="section-head"><i class="ph ph-sign-out"></i>User abandoned reasons (Level 2)</h2>
+            <p class="section-desc">Where in the flow users dropped off.</p>
+            <div class="detail-card">
+              <div class="detail-card-body">
+                <div id="chart-d-container"></div>
+                <div id="chart-d-table"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -2318,6 +2584,60 @@
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
       <button class="btn-primary" id="confirm-action" onclick="confirmAction()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADD LANGUAGE MODAL ===== -->
+<div class="modal-overlay" id="lang-modal" onclick="closeModalOnOverlay(event, 'lang-modal')">
+  <div class="modal modal--picker">
+    <div class="modal-header">
+      <div>
+        <span class="modal-title">Add language</span>
+        <p class="modal-sub" style="margin:4px 0 0;font-size:13px">Choose a language to make available across the platform.</p>
+      </div>
+      <button class="modal-close" onclick="closeLangModal()"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="picker-search">
+        <div class="search-input">
+          <i class="ph ph-magnifying-glass"></i>
+          <input type="text" id="lang-search" placeholder="Search languages..." oninput="filterLangList()" />
+        </div>
+      </div>
+      <div class="picker-list" id="lang-list"></div>
+    </div>
+    <div class="modal-error" id="lang-error" style="display:none"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeLangModal()">Cancel</button>
+      <button class="btn-primary" id="lang-submit" disabled onclick="submitLang()">Add language</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADD COUNTRY MODAL ===== -->
+<div class="modal-overlay" id="country-modal" onclick="closeModalOnOverlay(event, 'country-modal')">
+  <div class="modal modal--picker">
+    <div class="modal-header">
+      <div>
+        <span class="modal-title">Add country</span>
+        <p class="modal-sub" style="margin:4px 0 0;font-size:13px">Block users from this country from accessing the platform.</p>
+      </div>
+      <button class="modal-close" onclick="closeCountryModal()"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="picker-search">
+        <div class="search-input">
+          <i class="ph ph-magnifying-glass"></i>
+          <input type="text" id="country-search" placeholder="Search countries..." oninput="filterCountryList()" />
+        </div>
+      </div>
+      <div class="picker-list" id="country-list"></div>
+    </div>
+    <div class="modal-error" id="country-error" style="display:none"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeCountryModal()">Cancel</button>
+      <button class="btn-primary" id="country-submit" disabled onclick="submitCountry()">Block country</button>
     </div>
   </div>
 </div>
@@ -2580,8 +2900,18 @@
   }
 
   function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-    document.body.style.overflow = '';
+    var el = document.getElementById(id);
+    if (!el || !el.classList.contains('open')) return;
+    el.classList.remove('open');
+    el.classList.add('closing');
+    var modal = el.querySelector('.modal');
+    function onDone() {
+      el.classList.remove('closing');
+      document.body.style.overflow = '';
+      modal.removeEventListener('animationend', onDone);
+    }
+    modal.addEventListener('animationend', onDone);
+    setTimeout(onDone, 250);
   }
 
   function closeModalOnOverlay(e, id) {
@@ -2590,7 +2920,7 @@
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-      ['seats-modal', 'invite-modal', 'confirm-modal'].forEach(function(id) {
+      ['seats-modal', 'invite-modal', 'confirm-modal', 'lang-modal', 'country-modal'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el && el.classList.contains('open')) closeModal(id);
       });
@@ -3979,6 +4309,476 @@
   })();
 
   RPT.init();
+
+  // ===== LANGUAGE PICKER =====
+  var ALL_LANGUAGES = [
+    { name: 'Arabic', native: 'العربية', code: 'ar-SA' },
+    { name: 'Chinese (Simplified)', native: '简体中文', code: 'zh-CN' },
+    { name: 'Chinese (Traditional)', native: '繁體中文', code: 'zh-TW' },
+    { name: 'Czech', native: 'Čeština', code: 'cs-CZ' },
+    { name: 'Danish', native: 'Dansk', code: 'da-DK' },
+    { name: 'Dutch', native: 'Nederlands', code: 'nl-NL' },
+    { name: 'English', native: 'English', code: 'en-US' },
+    { name: 'Finnish', native: 'Suomi', code: 'fi-FI' },
+    { name: 'French', native: 'Français', code: 'fr-FR' },
+    { name: 'German', native: 'Deutsch', code: 'de-DE' },
+    { name: 'Greek', native: 'Ελληνικά', code: 'el-GR' },
+    { name: 'Hindi', native: 'हिन्दी', code: 'hi-IN' },
+    { name: 'Indonesian', native: 'Bahasa Indonesia', code: 'id-ID' },
+    { name: 'Italian', native: 'Italiano', code: 'it-IT' },
+    { name: 'Japanese', native: '日本語', code: 'ja-JP' },
+    { name: 'Korean', native: '한국어', code: 'ko-KR' },
+    { name: 'Malay', native: 'Bahasa Melayu', code: 'ms-MY' },
+    { name: 'Norwegian', native: 'Norsk', code: 'nb-NO' },
+    { name: 'Polish', native: 'Polski', code: 'pl-PL' },
+    { name: 'Portuguese', native: 'Português', code: 'pt-BR' },
+    { name: 'Romanian', native: 'Română', code: 'ro-RO' },
+    { name: 'Russian', native: 'Русский', code: 'ru-RU' },
+    { name: 'Spanish', native: 'Español', code: 'es-ES' },
+    { name: 'Swedish', native: 'Svenska', code: 'sv-SE' },
+    { name: 'Thai', native: 'ภาษาไทย', code: 'th-TH' },
+    { name: 'Turkish', native: 'Türkçe', code: 'tr-TR' },
+    { name: 'Ukrainian', native: 'Українська', code: 'uk-UA' },
+    { name: 'Vietnamese', native: 'Tiếng Việt', code: 'vi-VN' }
+  ];
+
+  var selectedLangCode = null;
+
+  function getAddedLangCodes() {
+    var codes = [];
+    document.querySelectorAll('#tab-settings .section:nth-child(2) .data-table tbody tr .td-mono').forEach(function(el) {
+      codes.push(el.textContent.trim());
+    });
+    return codes;
+  }
+
+  function openLangModal() {
+    selectedLangCode = null;
+    document.getElementById('lang-search').value = '';
+    document.getElementById('lang-error').style.display = 'none';
+    document.getElementById('lang-submit').disabled = true;
+    renderLangList();
+    openModal('lang-modal');
+    setTimeout(function() { document.getElementById('lang-search').focus(); }, 50);
+  }
+
+  function closeLangModal() {
+    closeModal('lang-modal');
+    selectedLangCode = null;
+  }
+
+  function renderLangList(query) {
+    var list = document.getElementById('lang-list');
+    var added = getAddedLangCodes();
+    var q = (query || '').toLowerCase();
+    var filtered = ALL_LANGUAGES.filter(function(l) {
+      if (!q) return true;
+      return l.name.toLowerCase().indexOf(q) > -1 ||
+             l.native.toLowerCase().indexOf(q) > -1 ||
+             l.code.toLowerCase().indexOf(q) > -1;
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="picker-empty">No results for “' + escHtml(q) + '”</div>';
+      return;
+    }
+
+    var allDisabled = filtered.every(function(l) { return added.indexOf(l.code) > -1; });
+    var html = '';
+    if (allDisabled && !q) {
+      html += '<div class="picker-all-used">All available languages added</div>';
+    }
+    filtered.forEach(function(l) {
+      var isAdded = added.indexOf(l.code) > -1;
+      var isSelected = selectedLangCode === l.code && !isAdded;
+      var cls = 'picker-item' + (isSelected ? ' picker-item--selected' : '') + (isAdded ? ' picker-item--disabled' : '');
+      html += '<div class="' + cls + '" data-code="' + l.code + '"' + (!isAdded ? ' onclick="selectLang(\'' + l.code + '\')"' : '') + '>';
+      html += '<div class="picker-item-body">';
+      html += '<div class="picker-item-primary">' + escHtml(l.name) + '</div>';
+      html += '<div class="picker-item-secondary">' + escHtml(l.native) + '</div>';
+      html += '</div>';
+      if (isAdded) {
+        html += '<span class="picker-item-badge">Added</span>';
+      } else {
+        html += '<span class="picker-item-trail">' + l.code + '</span>';
+        html += '<i class="ph ph-check picker-check"></i>';
+      }
+      html += '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function filterLangList() {
+    var q = document.getElementById('lang-search').value;
+    var added = getAddedLangCodes();
+    var visible = ALL_LANGUAGES.filter(function(l) {
+      if (!q) return true;
+      var ql = q.toLowerCase();
+      return l.name.toLowerCase().indexOf(ql) > -1 ||
+             l.native.toLowerCase().indexOf(ql) > -1 ||
+             l.code.toLowerCase().indexOf(ql) > -1;
+    });
+    var selStillVisible = visible.some(function(l) { return l.code === selectedLangCode && added.indexOf(l.code) === -1; });
+    if (!selStillVisible) {
+      selectedLangCode = null;
+      document.getElementById('lang-submit').disabled = true;
+    }
+    renderLangList(q);
+  }
+
+  function selectLang(code) {
+    selectedLangCode = code;
+    document.getElementById('lang-submit').disabled = false;
+    renderLangList(document.getElementById('lang-search').value);
+  }
+
+  function submitLang() {
+    if (!selectedLangCode) return;
+    var btn = document.getElementById('lang-submit');
+    btn.disabled = true;
+    btn.textContent = 'Adding…';
+    document.getElementById('lang-error').style.display = 'none';
+
+    setTimeout(function() {
+      var lang = ALL_LANGUAGES.find(function(l) { return l.code === selectedLangCode; });
+      if (!lang) { btn.textContent = 'Add language'; btn.disabled = false; return; }
+
+      var tbody = document.querySelector('#tab-settings .section:nth-child(2) .data-table tbody');
+      var tr = document.createElement('tr');
+      tr.className = 'row-highlight';
+      tr.innerHTML =
+        '<td><div style="font:var(--t-card-title);color:var(--fg-1)">' + escHtml(lang.name) + '</div><div class="td-sub">' + escHtml(lang.native) + '</div></td>' +
+        '<td class="td-mono">' + lang.code + '</td>' +
+        '<td></td>' +
+        '<td><button class="dots-btn"><i class="ph ph-dots-three"></i></button></td>';
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      closeLangModal();
+      btn.textContent = 'Add language';
+      showToast(lang.name + ' added.');
+    }, 600);
+  }
+
+  // ===== COUNTRY PICKER =====
+  var ALL_COUNTRIES = [
+    { name: 'Afghanistan', code: 'AF', flag: '🇦🇫', region: 'APAC' },
+    { name: 'Australia', code: 'AU', flag: '🇦🇺', region: 'APAC' },
+    { name: 'Belarus', code: 'BY', flag: '🇧🇾', region: 'EMEA' },
+    { name: 'Brazil', code: 'BR', flag: '🇧🇷', region: 'AMERICAS' },
+    { name: 'Canada', code: 'CA', flag: '🇨🇦', region: 'AMERICAS' },
+    { name: 'China', code: 'CN', flag: '🇨🇳', region: 'APAC' },
+    { name: 'Cuba', code: 'CU', flag: '🇨🇺', region: 'AMERICAS' },
+    { name: 'Egypt', code: 'EG', flag: '🇪🇬', region: 'MENA' },
+    { name: 'France', code: 'FR', flag: '🇫🇷', region: 'EMEA' },
+    { name: 'Germany', code: 'DE', flag: '🇩🇪', region: 'EMEA' },
+    { name: 'India', code: 'IN', flag: '🇮🇳', region: 'APAC' },
+    { name: 'Indonesia', code: 'ID', flag: '🇮🇩', region: 'APAC' },
+    { name: 'Iran', code: 'IR', flag: '🇮🇷', region: 'MENA' },
+    { name: 'Iraq', code: 'IQ', flag: '🇮🇶', region: 'MENA' },
+    { name: 'Japan', code: 'JP', flag: '🇯🇵', region: 'APAC' },
+    { name: 'Libya', code: 'LY', flag: '🇱🇾', region: 'MENA' },
+    { name: 'Mexico', code: 'MX', flag: '🇲🇽', region: 'AMERICAS' },
+    { name: 'Myanmar', code: 'MM', flag: '🇲🇲', region: 'APAC' },
+    { name: 'Nigeria', code: 'NG', flag: '🇳🇬', region: 'EMEA' },
+    { name: 'North Korea', code: 'KP', flag: '🇰🇵', region: 'APAC' },
+    { name: 'Pakistan', code: 'PK', flag: '🇵🇰', region: 'APAC' },
+    { name: 'Philippines', code: 'PH', flag: '🇵🇭', region: 'APAC' },
+    { name: 'Russia', code: 'RU', flag: '🇷🇺', region: 'EMEA' },
+    { name: 'Saudi Arabia', code: 'SA', flag: '🇸🇦', region: 'MENA' },
+    { name: 'Somalia', code: 'SO', flag: '🇸🇴', region: 'EMEA' },
+    { name: 'South Africa', code: 'ZA', flag: '🇿🇦', region: 'EMEA' },
+    { name: 'South Korea', code: 'KR', flag: '🇰🇷', region: 'APAC' },
+    { name: 'South Sudan', code: 'SS', flag: '🇸🇸', region: 'EMEA' },
+    { name: 'Sudan', code: 'SD', flag: '🇸🇩', region: 'EMEA' },
+    { name: 'Syria', code: 'SY', flag: '🇸🇾', region: 'MENA' },
+    { name: 'Thailand', code: 'TH', flag: '🇹🇭', region: 'APAC' },
+    { name: 'Turkey', code: 'TR', flag: '🇹🇷', region: 'MENA' },
+    { name: 'Ukraine', code: 'UA', flag: '🇺🇦', region: 'EMEA' },
+    { name: 'United Kingdom', code: 'GB', flag: '🇬🇧', region: 'EMEA' },
+    { name: 'United States', code: 'US', flag: '🇺🇸', region: 'AMERICAS' },
+    { name: 'Venezuela', code: 'VE', flag: '🇻🇪', region: 'AMERICAS' },
+    { name: 'Vietnam', code: 'VN', flag: '🇻🇳', region: 'APAC' },
+    { name: 'Yemen', code: 'YE', flag: '🇾🇪', region: 'MENA' }
+  ];
+
+  var selectedCountryCode = null;
+
+  function getBlockedCountryCodes() {
+    var codes = [];
+    document.querySelectorAll('#tab-settings .section:nth-child(3) .data-table tbody .flag-code').forEach(function(el) {
+      codes.push(el.textContent.trim());
+    });
+    return codes;
+  }
+
+  function openCountryModal() {
+    selectedCountryCode = null;
+    document.getElementById('country-search').value = '';
+    document.getElementById('country-error').style.display = 'none';
+    document.getElementById('country-submit').disabled = true;
+    renderCountryList();
+    openModal('country-modal');
+    setTimeout(function() { document.getElementById('country-search').focus(); }, 50);
+  }
+
+  function closeCountryModal() {
+    closeModal('country-modal');
+    selectedCountryCode = null;
+  }
+
+  function renderCountryList(query) {
+    var list = document.getElementById('country-list');
+    var blocked = getBlockedCountryCodes();
+    var q = (query || '').toLowerCase();
+    var filtered = ALL_COUNTRIES.filter(function(c) {
+      if (!q) return true;
+      return c.name.toLowerCase().indexOf(q) > -1 ||
+             c.code.toLowerCase().indexOf(q) > -1 ||
+             c.region.toLowerCase().indexOf(q) > -1;
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="picker-empty">No results for “' + escHtml(q) + '”</div>';
+      return;
+    }
+
+    var allDisabled = filtered.every(function(c) { return blocked.indexOf(c.code) > -1; });
+    var html = '';
+    if (allDisabled && !q) {
+      html += '<div class="picker-all-used">All available countries blocked</div>';
+    }
+    filtered.forEach(function(c) {
+      var isBlocked = blocked.indexOf(c.code) > -1;
+      var isSelected = selectedCountryCode === c.code && !isBlocked;
+      var cls = 'picker-item' + (isSelected ? ' picker-item--selected' : '') + (isBlocked ? ' picker-item--disabled' : '');
+      html += '<div class="' + cls + '" data-code="' + c.code + '"' + (!isBlocked ? ' onclick="selectCountry(\'' + c.code + '\')"' : '') + '>';
+      html += '<span class="picker-flag">' + c.flag + '</span>';
+      html += '<div class="picker-item-body">';
+      html += '<div class="picker-item-primary">' + escHtml(c.name) + '</div>';
+      html += '<div class="picker-item-secondary">' + c.code + '</div>';
+      html += '</div>';
+      if (isBlocked) {
+        html += '<span class="picker-item-badge">Blocked</span>';
+      } else {
+        html += '<span class="picker-region">' + c.region + '</span>';
+        html += '<i class="ph ph-check picker-check"></i>';
+      }
+      html += '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function filterCountryList() {
+    var q = document.getElementById('country-search').value;
+    var blocked = getBlockedCountryCodes();
+    var visible = ALL_COUNTRIES.filter(function(c) {
+      if (!q) return true;
+      var ql = q.toLowerCase();
+      return c.name.toLowerCase().indexOf(ql) > -1 ||
+             c.code.toLowerCase().indexOf(ql) > -1 ||
+             c.region.toLowerCase().indexOf(ql) > -1;
+    });
+    var selStillVisible = visible.some(function(c) { return c.code === selectedCountryCode && blocked.indexOf(c.code) === -1; });
+    if (!selStillVisible) {
+      selectedCountryCode = null;
+      document.getElementById('country-submit').disabled = true;
+    }
+    renderCountryList(q);
+  }
+
+  function selectCountry(code) {
+    selectedCountryCode = code;
+    document.getElementById('country-submit').disabled = false;
+    renderCountryList(document.getElementById('country-search').value);
+  }
+
+  function submitCountry() {
+    if (!selectedCountryCode) return;
+    var btn = document.getElementById('country-submit');
+    btn.disabled = true;
+    btn.textContent = 'Blocking…';
+    document.getElementById('country-error').style.display = 'none';
+
+    setTimeout(function() {
+      var country = ALL_COUNTRIES.find(function(c) { return c.code === selectedCountryCode; });
+      if (!country) { btn.textContent = 'Block country'; btn.disabled = false; return; }
+
+      var now = new Date();
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var dateStr = months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+
+      var tbody = document.querySelector('#tab-settings .section:nth-child(3) .data-table tbody');
+      var tr = document.createElement('tr');
+      tr.className = 'row-highlight';
+      tr.innerHTML =
+        '<td><div class="flag-cell"><span class="flag-emoji">' + country.flag + '</span><div><div class="flag-name">' + escHtml(country.name) + '</div><div class="flag-code">' + country.code + '</div></div></div></td>' +
+        '<td>' + country.region + '</td>' +
+        '<td class="td-mono">' + dateStr + '</td>' +
+        '<td><button class="dots-btn"><i class="ph ph-dots-three"></i></button></td>';
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      closeCountryModal();
+      btn.textContent = 'Block country';
+      showToast(country.name + ' blocked.');
+    }, 600);
+  }
+
+  // ===== WORKSPACE NAME INLINE EDIT =====
+  var wsOriginalName = '';
+
+  function startEditWsName() {
+    var text = document.getElementById('ws-name-text');
+    wsOriginalName = text.textContent.trim();
+    var input = document.getElementById('ws-name-input');
+    input.value = wsOriginalName;
+    input.classList.remove('error');
+    document.getElementById('ws-name-error').style.display = 'none';
+    document.getElementById('ws-name-view').style.display = 'none';
+    document.getElementById('ws-name-edit').style.display = 'flex';
+    input.focus();
+    input.select();
+  }
+
+  function cancelEditWsName() {
+    document.getElementById('ws-name-edit').style.display = 'none';
+    document.getElementById('ws-name-view').style.display = 'flex';
+  }
+
+  function saveWsName() {
+    var input = document.getElementById('ws-name-input');
+    var val = input.value.trim();
+    var errEl = document.getElementById('ws-name-error');
+
+    if (!val) {
+      input.classList.add('error');
+      errEl.textContent = 'Name cannot be empty';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    var saveIcon = document.getElementById('ws-save-icon');
+    saveIcon.className = 'ph ph-spinner';
+    saveIcon.style.animation = 'spin 800ms linear infinite';
+
+    setTimeout(function() {
+      saveIcon.className = 'ph ph-check';
+      saveIcon.style.animation = '';
+      document.getElementById('ws-name-text').textContent = val;
+      document.getElementById('ws-name-edit').style.display = 'none';
+      document.getElementById('ws-name-view').style.display = 'flex';
+
+      var row = document.getElementById('ws-name-row');
+      row.classList.add('ws-name-flash');
+      setTimeout(function() { row.classList.remove('ws-name-flash'); }, 1500);
+
+      if (val !== wsOriginalName) showToast('Workspace name updated.');
+    }, 500);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    var editEl = document.getElementById('ws-name-edit');
+    if (!editEl || editEl.style.display === 'none') return;
+    if (e.key === 'Enter') { e.preventDefault(); saveWsName(); }
+    if (e.key === 'Escape') { e.preventDefault(); cancelEditWsName(); }
+  });
+
+  // ===== COPY TENANT ID =====
+  var copyTimer = null;
+
+  function copyTenantId() {
+    var text = document.getElementById('tenant-id-text').textContent.trim();
+    var chip = document.getElementById('copy-chip');
+    var icon = document.getElementById('copy-icon');
+    var announce = document.getElementById('copy-announce');
+
+    if (copyTimer) { clearTimeout(copyTimer); copyTimer = null; }
+
+    chip.classList.remove('visible', 'fading', 'error');
+    chip.textContent = 'Copied';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        showCopySuccess(chip, icon, announce);
+      }).catch(function() {
+        showCopyFail(chip, icon);
+      });
+    } else {
+      showCopyFail(chip, icon);
+    }
+  }
+
+  function showCopySuccess(chip, icon, announce) {
+    icon.className = 'ph ph-check';
+    chip.classList.add('visible');
+    announce.textContent = 'Tenant ID copied';
+
+    copyTimer = setTimeout(function() {
+      chip.classList.remove('visible');
+      chip.classList.add('fading');
+      setTimeout(function() {
+        chip.classList.remove('fading');
+        icon.className = 'ph ph-copy';
+        announce.textContent = '';
+      }, 250);
+    }, 1200);
+  }
+
+  function showCopyFail(chip, icon) {
+    chip.textContent = 'Copy failed';
+    chip.classList.add('visible', 'error');
+    icon.className = 'ph ph-x';
+
+    copyTimer = setTimeout(function() {
+      chip.classList.remove('visible', 'error');
+      chip.classList.add('fading');
+      setTimeout(function() {
+        chip.classList.remove('fading');
+        chip.textContent = 'Copied';
+        icon.className = 'ph ph-copy';
+      }, 250);
+    }, 1500);
+  }
+
+  function escHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  // Keyboard nav for picker modals
+  document.addEventListener('keydown', function(e) {
+    var activeModal = null;
+    if (document.getElementById('lang-modal').classList.contains('open')) activeModal = 'lang';
+    else if (document.getElementById('country-modal').classList.contains('open')) activeModal = 'country';
+    if (!activeModal) return;
+
+    var listId = activeModal === 'lang' ? 'lang-list' : 'country-list';
+    var items = Array.prototype.slice.call(document.querySelectorAll('#' + listId + ' .picker-item:not(.picker-item--disabled)'));
+    if (items.length === 0) return;
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      var selCode = activeModal === 'lang' ? selectedLangCode : selectedCountryCode;
+      var curIdx = -1;
+      items.forEach(function(it, i) { if (it.dataset.code === selCode) curIdx = i; });
+      var next = e.key === 'ArrowDown' ? curIdx + 1 : curIdx - 1;
+      if (next < 0) next = items.length - 1;
+      if (next >= items.length) next = 0;
+      var code = items[next].dataset.code;
+      if (activeModal === 'lang') selectLang(code);
+      else selectCountry(code);
+      items[next].scrollIntoView({ block: 'nearest' });
+    }
+
+    if (e.key === 'Enter') {
+      var submitId = activeModal === 'lang' ? 'lang-submit' : 'country-submit';
+      var submitBtn = document.getElementById(submitId);
+      if (!submitBtn.disabled) {
+        e.preventDefault();
+        submitBtn.click();
+      }
+    }
+  });
 </script>
 
 </body>
